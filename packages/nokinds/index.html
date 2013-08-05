@@ -1,0 +1,118 @@
+<html>
+    <head>
+        <title>GHC with kind equality</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+<div id="wholepage">
+        <h1>GHC with kind equality</h1>
+
+        <p>This page hosts a downloadable and testable version of the
+	  development implementation of GHC using the formalism
+	  in <a href="../../papers/2013/fckinds/fckinds-extended.pdf">System
+	  FC with kind equality</a> , submitted to ICFP 2013.</p>
+
+ <p>This implementation makes no user-visible changes. It is meant merely to
+      update the internal language within GHC (called Core in GHC circles and
+      System FC in academic circles -- they're the same thing) so that
+      user-visible Haskell features can be introduced later. Any code that
+      currently compiles within GHC 7.7.x should compile in this
+      implementation as well.</p>
+
+<p><b>If you want to experiment with the code</b>:
+  <ol>
+    <li>Follow the <a href="http://hackage.haskell.org/trac/ghc/wiki/Building/Preparation">instructions</a> on the GHC developers' wiki for getting your system
+set up properly to build GHC.</li>
+    <li>Download the <a href="ghc.tgz">tarball</a>.</li>
+    <li>Unpack it. You will now have a directory named <tt>ghc</tt>.</li>
+    <li><tt>cd</tt> into the <tt>ghc</tt> directory.</li>
+    <li>You now have two options:
+      <ul>
+	<li>If you want to build:
+	  <ol>
+	    <li><tt>perl boot</tt></li>
+	    <li><tt>./configure</tt></li>
+	    <li><tt>make</tt></li>
+	    <li>(optional) <tt>make install</tt></li>
+	  </ol>
+	</li>
+	<li>If you want to run the validator: Run <tt>sh validate</tt>. GHC
+	  will be built and tested. See below for more information about validating.
+	</li>
+      </ul>
+    </li>
+    <li>Either way, there is an exectuable
+	  in <tt>ghc/inplace/bin/ghc-stage2</tt> that you can run on your
+	  favorite program. Use the (standard) flags <tt>-ddump-simpl</tt>
+	  and <tt>-ddump-tc</tt> to see the Core program your Haskell program
+	  gets compiled into.</li>
+  </ol></p>
+
+<p><b>If you want to browse the code</b>: The code can be browsed on
+my <a href="http://github.com/goldfirere/ghc">github repo</a>. Because GHC
+uses many separate git repos to organize the code, <i>it will not work</i> to
+clone this repo and try to compile. Use the instructions above if you want to
+compile. A good place to start is in the <a href="https://github.com/goldfirere/ghc/tree/nokinds/compiler/types"><tt>compiler/types</tt></a> directory,
+and the files <a href="https://github.com/goldfirere/ghc/blob/nokinds/compiler/types/TyCoRep.lhs"><tt>TyCoRep.lhs</tt></a>, <a href="https://github.com/goldfirere/ghc/blob/nokinds/compiler/types/Type.lhs"><tt>Type.lhs</tt></a>, and <a href="https://github.com/goldfirere/ghc/blob/nokinds/compiler/types/Coercion.lhs"><tt>Coercion.lhs</tt></a> files. <tt>TyCoRep.lhs</tt> has the actual definition of the datatypes to
+store types and coercions, and most closely corresponds to the paper. If you
+enjoyed the paper, you might also be interested in the <tt>ty_co_subst</tt>
+function in <a href="https://github.com/goldfirere/ghc/blob/nokinds/compiler/types/Coercion.lhs"><tt>Coercion.lhs</tt></a>, which implements lifting.</p>
+
+<p>If you're a GHC developer and want to have a version of my implementation
+that works with GHC's git conventions, <a href="../../">email</a> me. It will
+take a little git wizardry to get everything to line up.</p>
+
+<h3>Validation</h3>
+
+<p>The version of the implementation posted <a href="ghc.tgz">here</a> validates
+with several test failures:</p>
+
+<pre>
+Unexpected passes:
+   driver           T5313 (normal)
+   perf/should_run  T149 (normal)
+
+Unexpected failures:
+   codeGen/should_run  cgrun071 [bad exit code] (normal)
+   driver              T2507 [bad stderr] (normal)
+   ghc-api/T7478       T7478 [bad exit code] (normal)
+   perf/compiler       T1969 [stat not good enough] (normal)
+   perf/compiler       T3064 [stat not good enough] (normal)
+   perf/compiler       T4801 [stat too good] (normal)
+   perf/compiler       T5030 [stat not good enough] (normal)
+   perf/compiler       T5321Fun [stat not good enough] (normal)
+   perf/compiler       T5631 [stat not good enough] (normal)
+   perf/haddock        haddock.compiler [stat not good enough] (normal)
+</pre>
+
+<p>However, most of these also fail in HEAD (as downloaded on March 26, 2013).
+The implemenation introduces only 4 new
+failures: <tt>T3064</tt>, <tt>T5030</tt>, <tt>T5321Fun</tt>,
+and <tt>T5631</tt>. (The unexpected passes also appear in HEAD.) These are all
+performance failures and will be fixed before merging. Thus, it is my belief
+that the implementation faithfully compiles exactly the same set of Haskell
+programs that HEAD does. If you discover otherwise, <a href="../../">email</a>
+me.</p>
+
+<h3>Merging</h3>
+
+<p>This implementation was written with the generous help of Simon Peyton Jones
+and Dimitrios Vytiniotis, who are responsible for lots of what happens in GHC.
+They seem to have accepted the inevitability that these ideas will some day
+be merged. As we have all recently been scrambling to write ICFP papers, we
+have not discussed merging, but I expect this to be merged into GHC HEAD by
+midsummer.</p>
+
+<hr />
+
+<p>Please feel free to <a href="../../">email</a> me with any questions!</p>
+
+        <p> This material is based upon work supported by the National Science
+        Foundation under Grant No. 1116620. Any opinions, findings, and
+        conclusions or recommendations expressed in this material are those of
+        the author(s) and do not necessarily reflect the views of the National
+        Science Foundation.
+        </p>
+</div>
+    </body>
+</html>

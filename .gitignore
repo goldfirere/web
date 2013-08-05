@@ -1,0 +1,4 @@
+files
+*.tgz
+*.tar.gz
+packages/*/*-?.?.?

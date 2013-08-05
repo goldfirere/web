@@ -1,0 +1,120 @@
+body {
+    font-size: medium;
+    font-family: "Segoe UI", Candara, "Bitstream Vera Sans", "DejaVu Sans", "Bitstream Vera Sans", "Trebuchet MS", Verdana, "Verdana Ref", sans-serif;
+    background-color: #F5F5DC; /* beige */
+    color: #191970; /* midnight */
+}
+
+/* The Richard A. Eisenberg */
+#banner {
+    text-align: right;
+    font-size: x-large;
+}
+
+#wholepage {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.hr {
+    margin-bottom: 5px;
+    background-color: #191970;
+    height: 1px;
+}
+
+#navbar {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#navbar a {
+    margin: 0px 20px;
+    text-decoration: none;
+}
+
+a:link {
+    color: #0000CD;
+}
+
+a:hover {
+    background-color: #DCDCC6;
+}
+
+#picture {
+    float: right;
+}
+    
+.email {
+    font-family: Consolas, "Andale Mono WT", "Andale Mono", "Lucida Console", "Lucida Sans Typewriter", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", "Liberation Mono", "Nimbus Mono L", Monaco, "Courier New", Courier, monospace;
+}
+
+.at {
+    font-style: oblique;
+}
+
+.goldfire {
+    font-style: oblique;
+}
+
+#details {
+    display: table;
+    width: 600px;
+}
+
+#coords {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 40px;
+}
+
+.section {
+    font-weight: bold;
+    font-size: large;
+}
+
+p {
+    margin: 10px auto;
+    margin-left: 5px;
+}
+
+td.inst {
+    width: 300px;
+    padding-bottom: 10px;
+}
+
+.instname {
+    font-weight: bold;
+}
+
+table#education {
+    margin-left: 5px;
+}
+
+table#education td {
+    vertical-align: top;
+}
+
+.magna {
+    font-style: italic;
+}
+
+.instname a {
+    text-decoration: none;
+}
+
+.note {
+    display: none;
+    overflow: hidden;
+}
+
+dt {
+    margin-top: 5px;
+}
+
+.projname {
+    font-weight: bold;
+}
+
+li {
+    margin-bottom: 5px;
+}
