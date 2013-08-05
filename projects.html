@@ -18,48 +18,61 @@ that <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie</a> has her hand in
 project.</p>
 
 <ul>
-<li><span class="projname">System FC with kind equality</span>. We propose an
+<li><span class="projname">System FC with Explicit Kind Equality</span>. We propose an
 update to FC, the internal language of <a href="http://www.haskell.org/ghc/">GHC</a>, 
 that brings kind equalities to the language. The new System FC merges types and kinds
 and has the (*:*) axiom. The
 <a href="papers/2013/fckinds/fckinds.pdf">draft paper</a>
 (and <a href="papers/2013/fckinds/fckinds-extended.pdf">extended version</a>),
-submitted to ICFP 2013,
+has been accepted at ICFP 2013,
 is online. I have <a href="packages/nokinds/">implemented</a> these ideas into
-GHC. With <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie Weirich</a>
+GHC. Ongoing work includes working out a type inference algorithm in order to
+carry our changes from the internal language into Haskell.
+With <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie Weirich</a>
 and <a href="http://www.cis.upenn.edu/~justhsu/">Justin Hsu</a>.</li>
-<li><span class="projname">Overlapping type family instances in
-Haskell</span>. What changes are necessary to the surface language and in GHC
-to allow overlapping type family instances? See
-the <a href="http://hackage.haskell.org/trac/ghc/wiki/NewAxioms">GHC wiki
-page</a> for more info. This feature is now part of GHC and will be included
-in the next major release.
-With <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
-Peyton Jones</a> and <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie
-Weirich</a>.</li>
 </ul>
 
 <p>Below are my less active projects. Most weeks do not involve any work on these,
 but issues crop up now and again.</p>
 
 <ul>
+<li><span class="projname">Roles</span>. I implemented a simplified version
+of the ideas in <a href="http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf">Generative type abstraction and type-level computation</a> into GHC. This prevents
+the <pre>GeneralizedNewtypeDeriving</pre> bug. See also the <a href="http://ghc.haskell.org/trac/ghc/wiki/Roles">wiki page</a> on the subject. This work was completed while I was preforming an internship at Microsoft Research Cambridge, under the supervision of <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
+Peyton Jones</a>.</li>
+<li><span class="projname">units</span>. This is a library, written using closed
+type families, that allows for type-level dimensional analysis, to aid programs
+written using units-of-measure. The project page is <a href="packages/units/">here</a>.</li>
+<li><span class="projname">Closed type families in
+Haskell</span>. What changes are necessary to the surface language and in GHC
+to allow closed type families with ordered, overlapping equations? See
+the <a href="http://hackage.haskell.org/trac/ghc/wiki/NewAxioms">GHC wiki
+page</a> for more info. This feature is now part of GHC and will be included
+in the next major release. We have also submitted a <a href="papers/2014/axioms/axioms.pdf">paper</a> (<a href="papers/2014/axioms/axioms-extended.pdf">extended version</a>, with
+proofs and further examples) to POPL 2014.
+With <a href="http://research.microsoft.com/en-us/people/dimitris/">Dimitrios
+Vytiniotis</a>,
+<a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
+Peyton Jones</a>, and <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie
+Weirich</a>.</li>
 <li><span class="projname">singletons</span>. This project supports the
 <a href="http://hackage.haskell.org/package/singletons">singletons</a> package, allowing
 a limited form of dependently typed programming in current versions of Haskell. The
 <a href="papers/2012/singletons/paper.pdf">paper</a> resulting from this work was published
 at the Haskell Symposium, 2012.</li>
-<li><span class="projname">System FC in GHC</span>. I wrote up a formal specification
+<li><span class="projname">System FC in GHC</span>. I maintain a formal specification
 of the internal language within GHC <a href="https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true">here</a>.</li>
 <li><span class="projname">Ironclad C++</span>. We define a subset of C++ that
-can be proved not to allow access to invalid memory locations. A draft paper
-has been submitted to OOPSLA 2013.
+can be proved not to allow access to invalid memory locations. Our paper
+will be presented at OOPSLA 2013. <a href="papers/2013/ironclad/tr.pdf">Here</a>
+is the accompanying technical report, with the proof of the critical pointer-lifetime
+invariant.
 With <a href="http://www.cis.upenn.edu/~delozier/">Christian
 DeLozier</a>, <a href="http://www.cis.upenn.edu/~posera/">Peter-Michael
 Osera</a>, <a href="http://www.cs.rutgers.edu/~santosh.nagarakatte/">Santosh
 Nagarakatte</a>, <a href="http://www.cis.upenn.edu/~milom/">Milo M. K.
 Martin</a>, and <a href="http://www.cis.upenn.edu/~stevez/">Steve
 Zdancewic</a>.</li>
-
 </ul>
 
 </div>
