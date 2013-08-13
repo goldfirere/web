@@ -20,6 +20,7 @@
         <h2>Announcements</h2>
 
         <ul>
+	  <li> <b>August 13, 2013:</b> <tt>singletons-0.8.6</tt> released. This is a maintenance release, allowing compilation with GHC HEAD. Using singletons with polymorphic functions now cause an error in GHC with <tt>-dcore-lint</tt>. This is a flaw in GHC. I believe it is related to ticket <a href="http://ghc.haskell.org/trac/ghc/ticket/8031">#8031</a>. If you don't use <tt>-dcore-lint</tt>, you should be OK.</li>
 	  <li> <b>January 27, 2013:</b> <tt>singletons-0.8.5</tt> released. This is a bugfix release, allowing compatibility with GHC 7.6.1. (Version 0.8.4 required HEAD.)</li>
 	  <li> <b>January 16, 2013:</b> <tt>singletons-0.8.4</tt> released, using <a href="http://typesandkinds.wordpress.com/2012/12/22/ordered-overlapping-type-family-instances/">branched type family instances</a> for promoting functions. This version also allows constrained functions to be promoted, simply by omitting the constraints.</li>
             <li> <b>November 1, 2012:</b> <tt>singletons-0.8.3</tt> released, now compatible with <tt>GHC.TypeLits</tt>. See <a href="http://hackage.haskell.org/trac/ghc/wiki/TypeNats/SingletonsAndKinds">this wiki page</a> for more info about how TypeLits works with singletons and kinds. The singletons library now works the same way.</li>
