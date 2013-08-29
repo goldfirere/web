@@ -1,0 +1,39 @@
+<html>
+    <head>
+        <title>th-desugar</title>
+        <link rel="stylesheet" type="text/css" href="style.css" />
+    </head>
+    <body>
+<div id="wholepage">
+        <h1>The <tt>th-desugar</tt> library</h1>
+
+        <p>This page is the home of the <tt>th-desugar</tt> library, maintained by <a href="../../index.html">Richard Eisenberg</a>. <tt>th-desugar</tt> provides functions to simplify the rich syntax allowed in Template Haskell into a more palatable (and smaller) form. See the <a href="haddock">documentation</a> to get an idea of the simpler forms that <tt>th-desugar</tt> produces.</p>
+
+<p>A future extension will be to greatly simplify <tt>case</tt> statements, making it so that patterns do not overlap.</p>
+
+        <ul>
+            <li>Download the <a href="th-desugar.tar.gz">tarball</a></li>
+	    <li>Browse the <a href="th-desugar-1.0.0">sources</a></li>
+	    <li>Read the <a href="README.html">README</a></li>
+	    <li>Read the <a href="haddock">documentation</a></li>
+        </ul>
+
+<p>Known issue:</p>
+
+<ul>
+  <li>Unboxed things do not always work. This is because the processing sometimes
+      puts them into tuples, which is not allowed. This will be fixed in a future
+      release.</li>
+</ul>
+
+        <h2>Announcements</h2>
+
+        <ul>
+	  <li> <b>August 29, 2013:</b> <tt>th-desugar-1.0.0</tt> released, compatible with both GHC HEAD and GHC 7.6.3.</li>
+        </ul>
+
+        <p> This material is based upon work supported by the National Science Foundation under Grant No. 1116620. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation
+        </p>
+</div>
+    </body>
+</html>
