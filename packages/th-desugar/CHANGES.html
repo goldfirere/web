@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>th-desugar Package CHANGES</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div id="wholepage">
+
+<h1><code>th-desugar</tt> Release Notes</h1>
+
+<h2>Version 1.1</h2>
+
+<ul>
+<li>Added module <code>Language.Haskell.TH.Desugar.Expand</code>, which allows for expansion
+of type synonyms in desugared types.</li>
+<li>Added <code>Show</code>, <code>Typeable</code>, and <code>Data</code> instances to desugared types.</li>
+<li>Fixed bug where an as-pattern in a <code>let</code> statement was scoped incorrectly.</li>
+<li>Changed signature of <code>dsPat</code> to be more specific to as-patterns; this allowed
+for fixing the <code>let</code> scoping bug.</li>
+<li>Created new functions <code>dsPatOverExp</code> and <code>dsPatsOverExp</code> to allow for easy
+desugaring of patterns.</li>
+<li>Changed signature of <code>dsLetDec</code> to return a list of <code>DLetDec</code>s.</li>
+<li>Added <code>dsLetDecs</code> for convenience. Now, instead
+of using <code>mapM dsLetDec</code>, you should use <code>dsLetDecs</code>.</li>
+</ul>
+
+<h2>Version 1.0</h2>
+
+<ul>
+<li>Initial release</li>
+</ul>
+
+
+</div>
+</body>
+</html>
