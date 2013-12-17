@@ -1,0 +1,312 @@
+<html>
+<head>
+<title>singletons 0.9.0</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div id="wholepage">
+
+<h1>singletons 0.9.0</h1>
+
+<p>This is the README file for the singletons library. This file contains all the
+documentation for the definitions and functions in the library.</p>
+
+<p>The singletons library was written by Richard Eisenberg, eir@cis.upenn.edu.
+See also <em>Dependently typed programming with singletons</em>, available
+<a href="http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf">here</a>.</p>
+
+<h2>Purpose of the singletons library</h2>
+
+<p>The library contains a definition of <em>singleton types</em>, which allow
+programmers to use dependently typed techniques to enforce rich constraints
+among the types in their programs. See the paper cited above for a
+more thorough introduction.</p>
+
+<h2>Compatibility</h2>
+
+<p>The singletons library requires GHC version 7.6.3 or greater.
+Any code that uses the singleton generation primitives will also need
+to enable a long list of GHC extensions. This list includes, but
+is not necessarily limited to, the following:</p>
+
+<ul>
+<li><code>ScopedTypeVariables</code> (absolutely required)</li>
+<li><code>TemplateHaskell</code></li>
+<li><code>TypeFamilies</code></li>
+<li><code>GADTs</code></li>
+<li><code>KindSignatures</code></li>
+<li><code>DataKinds</code></li>
+<li><code>PolyKinds</code></li>
+<li><code>TypeOperators</code></li>
+<li><code>FlexibleContexts</code></li>
+<li><code>RankNTypes</code></li>
+<li><code>UndecidableInstances</code></li>
+<li><code>FlexibleInstances</code></li>
+<li><code>EmptyCase</code> (for GHC 7.8)</li>
+</ul>
+
+<h2>Functions to generate singletons</h2>
+
+<p>The top-level functions used to generate singletons are documented in the
+<code>Data.Singletons.TH</code> module. The most common case is just calling <code>singletons</code>,
+which I'll describe here:</p>
+
+<pre><code>singletons :: Q [Dec] -&gt; Q [Dec]
+</code></pre>
+
+<p>Generates singletons from the definitions given. Because singleton generation
+requires promotion, this also promotes all of the definitions given to the
+type level.</p>
+
+<p>To use:
+    $(singletons [d|
+      data Nat = Zero | Succ Nat
+      pred :: Nat -> Nat
+      pred Zero = Zero
+      pred (Succ n) = n
+      |])</p>
+
+<h2>Definitions used to support singletons</h2>
+
+<p>Please refer to the paper cited above for a more in-depth explanation of these
+definitions. Many of the definitions were developed in tandem with Iavor Diatchki.</p>
+
+<pre><code>data family Sing (a :: k)
+</code></pre>
+
+<p>The data family of singleton types. A new instance of this data family is
+generated for every new singleton type.</p>
+
+<pre><code>class SingI (a :: k) where
+  sing :: Sing a
+</code></pre>
+
+<p>A class used to pass singleton values implicitly. The <code>sing</code> method produces
+an explicit singleton value.</p>
+
+<pre><code>data SomeSing (kproxy :: KProxy k) where
+  SomeSing :: Sing (a :: k) -&gt; SomeSing ('KProxy :: KProxy k)
+</code></pre>
+
+<p>The <code>SomeSing</code> type wraps up an <em>existentially-quantified</em> singleton. Note that
+the type parameter <code>a</code> does not appear in the <code>SomeSing</code> type. Thus, this type
+can be used when you have a singleton, but you don't know at compile time what
+it will be. <code>SomeSing ('KProxy :: KProxy Thing)</code> is isomorphic to <code>Thing</code>.</p>
+
+<pre><code>class (kparam ~ 'KProxy) =&gt; SingKind (kparam :: KProxy k) where
+  type DemoteRep kparam :: *
+  fromSing :: Sing (a :: k) -&gt; DemoteRep kparam
+  toSing   :: DemoteRep kparam -&gt; SomeSing kparam
+</code></pre>
+
+<p>This class is used to convert a singleton value back to a value in the
+original, unrefined ADT. The <code>fromSing</code> method converts, say, a
+singleton <code>Nat</code> back to an ordinary <code>Nat</code>. The <code>toSing</code> method produces
+an existentially-quantified singleton, wrapped up in a <code>SomeSing</code>.
+The <code>DemoteRep</code> associated
+kind-indexed type family maps a proxy of the kind <code>Nat</code>
+back to the type <code>Nat</code>. </p>
+
+<pre><code>data SingInstance (a :: k) where
+  SingInstance :: SingI a =&gt; SingInstance a
+singInstance :: Sing a -&gt; SingInstance a
+</code></pre>
+
+<p>Sometimes you have an explicit singleton (a <code>Sing</code>) where you need an implicit
+one (a dictionary for <code>SingI</code>). The <code>SingInstance</code> type simply wraps a <code>SingI</code>
+dictionary, and the <code>singInstance</code> function produces this dictionary from an
+explicit singleton. The <code>singInstance</code> function runs in constant time, using
+a little magic.</p>
+
+<h2>Equality classes</h2>
+
+<p>There are two different notions of equality applicable to singletons: Boolean
+equality and propositional equality.</p>
+
+<ul>
+<li><p>Boolean equality is implemented in the type family <code>(:==)</code> (which is actually
+a synonym for the type family <code>(==)</code> from <code>Data.Type.Equality</code>) and the class
+<code>SEq</code>. See the <code>Data.Singletons.Eq</code> module for more information.</p></li>
+<li><p>Propositional equality is implemented through the constraint <code>(~)</code>, the type
+<code>(:~:)</code>, and the class <code>SDecide</code>. See modules <code>Data.Type.Equality</code> and
+<code>Data.Singletons.Decide</code> for more information.</p></li>
+</ul>
+
+<p>Which one do you need? That depends on your application. Boolean equality has
+the advantage that your program can take action when two types do <em>not</em> equal,
+while propositional equality has the advantage that GHC can use the equality
+of types during type inference.</p>
+
+<p>Instances of both <code>SEq</code> and <code>SDecide</code> are generated when <code>singletons</code> is called
+on a datatype that has <code>deriving Eq</code>. You can also generate these instances
+directly through functions exported from <code>Data.Singletons.TH</code>.</p>
+
+<h2>Pre-defined singletons</h2>
+
+<p>The singletons library defines a number of singleton types and functions
+by default:</p>
+
+<ul>
+<li><code>Bool</code></li>
+<li><code>Maybe</code></li>
+<li><code>Either</code></li>
+<li><code>Ordering</code></li>
+<li><code>()</code></li>
+<li>tuples up to length 7</li>
+<li>lists</li>
+</ul>
+
+<p>These are all available through <code>Data.Singletons.Prelude</code>. Functions that
+operate on these singletons are available from modules such as <code>Data.Singletons.Bool</code>
+and <code>Data.Singletons.Maybe</code>.</p>
+
+<h2>On names</h2>
+
+<p>The singletons library has to produce new names for the new constructs it
+generates. Here are some examples showing how this is done:</p>
+
+<p>original datatype: <code>Nat</code> <br />
+promoted kind: <code>Nat</code> <br />
+singleton type: <code>SNat</code> (which is really a synonym for <code>Sing</code>)  </p>
+
+<p>original datatype: <code>:/\:</code> <br />
+promoted kind: <code>:/\:</code> <br />
+singleton type: <code>:%/\:</code>  </p>
+
+<p>original constructor: <code>Zero</code> <br />
+promoted type: <code>'Zero</code> (you can use <code>Zero</code> when unambiguous) <br />
+singleton constructor: <code>SZero</code>  </p>
+
+<p>original constructor: <code>:+:</code> <br />
+promoted type: <code>':+:</code> <br />
+singleton constructor: <code>:%+:</code>  </p>
+
+<p>original value: <code>pred</code> <br />
+promoted type: <code>Pred</code> <br />
+singleton value: <code>sPred</code>  </p>
+
+<p>original value: <code>+</code> <br />
+promoted type: <code>:+</code> <br />
+singleton value: <code>%:+</code>  </p>
+
+<h2>Special names</h2>
+
+<p>There are some special cases:</p>
+
+<p>original datatype: <code>[]</code> <br />
+singleton type: <code>SList</code></p>
+
+<p>original constructor: <code>[]</code> <br />
+singleton constructor: <code>SNil</code></p>
+
+<p>original constructor: <code>:</code> <br />
+singleton constructor: <code>SCons</code></p>
+
+<p>original datatype: <code>(,)</code> <br />
+singleton type: <code>STuple2</code></p>
+
+<p>original constructor: <code>(,)</code> <br />
+singleton constructor: <code>STuple2</code></p>
+
+<p>All tuples (including the 0-tuple, unit) are treated similarly.</p>
+
+<p>original value: <code>undefined</code> <br />
+promoted type: <code>Any</code> <br />
+singleton value: <code>undefined</code></p>
+
+<h2>Supported Haskell constructs</h2>
+
+<p>The following constructs are fully supported:</p>
+
+<ul>
+<li>variables</li>
+<li>tuples</li>
+<li>constructors</li>
+<li>if statements</li>
+<li>infix expressions</li>
+<li>!, ~, and _ patterns</li>
+<li>aliased patterns (except at top-level)</li>
+<li>lists</li>
+<li>(+) sections</li>
+<li>(x +) sections</li>
+<li>undefined</li>
+<li>error</li>
+<li>deriving Eq</li>
+<li>class constraints</li>
+<li>literals (for <code>Nat</code> and <code>Symbol</code>)</li>
+</ul>
+
+<p>The following constructs will be coming soon:</p>
+
+<ul>
+<li>unboxed tuples</li>
+<li>records</li>
+<li>scoped type variables</li>
+<li>overlapping patterns</li>
+<li>pattern guards</li>
+<li>(+ x) sections</li>
+<li>case</li>
+<li>let</li>
+<li>list comprehensions</li>
+<li>lambda expressions</li>
+<li>do</li>
+<li>arithmetic sequences</li>
+</ul>
+
+<p>As described briefly in the paper, the singletons generation mechanism does not
+currently work for higher-order datatypes (though higher-order functions are
+just peachy). So, if you have a declaration such as</p>
+
+<pre><code>data Foo = Bar (Bool -&gt; Maybe Bool)
+</code></pre>
+
+<p>its singleton will not work correctly. It turns out that getting this to work
+requires fairly thorough changes to the whole singleton generation scheme.
+Please shout (to eir@cis.upenn.edu) if you have a compelling use case for this
+and I can take a look at it. No promises, though.</p>
+
+<h2>Support for <code>*</code></h2>
+
+<p>The built-in Haskell promotion mechanism does not yet have a full story around
+the kind <code>*</code> (the kind of types that have values). Ideally, promoting some form
+of <code>TypeRep</code> would yield <code>*</code>, but the implementation of TypeRep would have to be
+updated for this to really work out. In the meantime, users who wish to
+experiment with this feature have two options:</p>
+
+<p>1) The module <code>Data.Singletons.TypeRepStar</code> has all the definitions possible for
+making <code>*</code> the promoted version of <code>TypeRep</code>, as <code>TypeRep</code> is currently implemented.
+The singleton associated with <code>TypeRep</code> has one constructor:</p>
+
+<pre><code>data instance Sing (a :: *) where
+  STypeRep :: Typeable a =&gt; Sing a
+</code></pre>
+
+<p>Thus, an implicit <code>TypeRep</code> is stored in the singleton constructor. However,
+any datatypes that store <code>TypeRep</code>s will not generally work as expected; the
+built-in promotion mechanism will not promote <code>TypeRep</code> to <code>*</code>.</p>
+
+<p>2) The module <code>Data.Singletons.CustomStar</code> allows the programmer to define a subset
+of types with which to work. See the Haddock documentation for the function
+<code>singletonStar</code> for more info.</p>
+
+<h2>Changes from earlier versions</h2>
+
+<p>singletons 0.9 contains a bit of an API change from previous versions. Here is
+a summary:</p>
+
+<ul>
+<li><p>There are no more "smart" constructors. Those were necessary because each
+singleton used to carry both explicit and implicit versions of any children
+nodes. However, this leads to exponential overhead! Now, the magic (i.e., a
+use of <code>unsafeCoerce</code>) in <code>singInstance</code> gets rid of the need for storing
+implicit singletons. The smart constructors did some of the work of managing
+the stored implicits, so they are no longer needed.</p></li>
+<li><p><code>SingE</code> and <code>SingRep</code> are gone. If you need to carry an implicit singleton,
+use <code>SingI</code>. Otherwise, you probably want <code>SingKind</code>.</p></li>
+<li><p>The Template Haskell functions are now exported from <code>Data.Singletons.TH</code>.</p></li>
+<li><p>The Prelude singletons are now exported from <code>Data.Singletons.Prelude</code>.</p></li>
+</ul>
+
+</div>
+</body>
+</html>
