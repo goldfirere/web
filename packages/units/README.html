@@ -17,20 +17,6 @@ unit: Scalar. The package supports defining multiple inter-convertible units,
 such as Meter and Foot. When extracting a number from a dimensioned quantity,
 the desired unit must be specified, and the value is converted into that unit.</p>
 
-<p>Limitations:
-- The <em>units</em> package does not easily allow users to write code polymorphic
-  in the chosen units. For example, a <code>sum</code> function that adds together a
-  homogeneous list of dimensioned quantities is not straightforward. The
-  package exports its internals to allow clients to try to get these working,
-  but it is generally hard to do. However, monomorphic functions are easy.</p>
-
-<ul>
-<li>The <em>units</em> package is not generalized over number representation: it forces
-client code to use <code>Double</code>. It wouldn't be hard to generalize, though, but
-it would add a fair amount of extra cruft here and there. Shout (to
-<code>eir@cis.upenn.edu</code>) if this is important to you.</li>
-</ul>
-
 <h2>User contributions</h2>
 
 <p>It is easy to imagine any number of built-in facilities that would go well
@@ -55,6 +41,17 @@ grows over time.</p>
 <p>This is the main exported module. It exports all the necessary functionality
 for you to build your own set of units and operate with them. All modules
 implicitly depend on this one.</p></li>
+<li><p><strong><code>Data.Dimensions.Poly</code></strong></p>
+
+<p>This module exports some more definitions that may be useful when writing
+functions polymorphic over the choice of dimension. These functions are
+sometimes challenging (or perhaps impossible) to write, as the system is
+designed more with <em>monomorphic</em> use than polymorphic use.</p></li>
+<li><p><strong><code>Data.Dimensions.Unsafe</code></strong></p>
+
+<p>This module exports the constructor for the central datatype that stores
+dimensioned quantities. With this constructor, you can arbitrarily change
+units! Use at your peril.</p></li>
 <li><p><strong><code>Data.Dimensions.Show</code></strong></p>
 
 <p>This module defines a <code>Show</code> instance for dimensioned quantities, printing
@@ -62,17 +59,21 @@ out the number stored along with its canonical dimension. This behavior
 may not be the best for every setting, so it is exported separately.</p></li>
 <li><p><strong><code>Data.Dimensions.SI</code></strong></p>
 
-<p>This module exports unit definitions for the <a href="http://en.wikipedia.org/wiki/International_System_of_Units">SI</a> system of units.</p></li>
-<li><p><strong><code>Data.Dimensions.SI.Prefixes</code></strong></p>
+<p>This module exports unit definitions for the <a href="http://en.wikipedia.org/wiki/International_System_of_Units">SI</a> system of units,
+re-exporting the three modules below.</p></li>
+<li><p><strong><code>Data.Dimensions.SI.Units</code></strong></p>
 
-<p>This module exports the SI prefixes. Note that this does <em>not</em> depend
-on <code>Data.Dimensions.SI</code> -- you can use these prefixes with any system of
-units.</p></li>
+<p>This module exports only the SI units, such as <code>Meter</code> and <code>Ampere</code>.</p></li>
 <li><p><strong><code>Data.Dimensions.SI.Types</code></strong></p>
 
-<p>This module exports several useful types for use with the SI package,
+<p>This module exports several useful types for use with the SI.Units module,
 which it depends on. For example, <code>Length</code> is the type of dimensioned
 quantities made with <code>Meter</code>s.</p></li>
+<li><p><strong><code>Data.Dimensions.SI.Prefixes</code></strong></p>
+
+<p>This module exports the SI prefixes. Note that this does <em>not</em> depend on
+any of the other SI modules -- you can use these prefixes with any system
+of units.</p></li>
 </ul>
 
 <h1>Examples</h1>
@@ -219,9 +220,6 @@ roomSize' :: Area1
 roomSize' = 100 % (Meter :* Meter)
 </code></pre>
 
-<p>These operations have no defined inverses, though I don't think they would be
-hard to define. Shout if you need that functionality.</p>
-
 <p>Note that addition and subtraction on units does not make physical sense, so
 those operations are not provided.</p>
 
@@ -236,12 +234,13 @@ abbreviations like <code>Length</code> and <code>Time</code>) for your functions
 happen that the inferred type of your expression and the given type of your
 function may not exactly match up. This is because dimensioned quantities have
 a looser notion of type equality than Haskell does. For example, "meter *
-second" should be the same as "second * meter", even those these are in
+second" should be the same as "second * meter", even though these are in
 different order. The <code>dim</code> function checks (at compile time) to make sure its
 input type and output type represent the same underlying dimension and then
-performs a cast from one to the other. When providing type annotations, it is
-good practice to start your function with a <code>dim $</code> to prevent the possibility
-of type errors. For example, say we redefine velocity a different way:</p>
+performs a cast from one to the other. This cast is completely free at
+runtime. When providing type annotations, it is good practice to start your
+function with a <code>dim $</code> to prevent the possibility of type errors. For
+example, say we redefine velocity a different way:</p>
 
 <pre><code>type Velocity3 = Scalar %/ Time %* Length
 addVels :: Velocity1 -&gt; Velocity1 -&gt; Velocity3
