@@ -6,7 +6,9 @@
 <body>
 <div id="wholepage">
 
-<h1>singletons 0.9.3</h1>
+<h1>singletons 0.10</h1>
+
+<p><a href="https://travis-ci.org/goldfirere/singletons"><img src="https://travis-ci.org/goldfirere/singletons.svg?branch=master" alt="Build Status" title="" /></a></p>
 
 <p>This is the README file for the singletons library. This file contains all the
 documentation for the definitions and functions in the library.</p>
@@ -42,8 +44,41 @@ is not necessarily limited to, the following:</p>
 <li><code>RankNTypes</code></li>
 <li><code>UndecidableInstances</code></li>
 <li><code>FlexibleInstances</code></li>
-<li><code>EmptyCase</code> (for GHC 7.8)</li>
 </ul>
+
+<h2>Modules</h2>
+
+<p><code>Data.Singletons</code> exports all the basic singletons definitions. Import this
+module if you are not using Template Haskell and wish only to define your
+own singletons.</p>
+
+<p><code>Data.Singletons.TH</code> exports all the definitions needed to use the Template
+Haskell code to generate new singletons.</p>
+
+<p><code>Data.Singletons.Prelude</code> re-exports <code>Data.Singletons</code> along with singleton
+definitions for various Prelude types. This module is intended to export
+those definitions that are exported by the real <code>Prelude</code>.</p>
+
+<p>There are several modules that echo standard modules. For example,
+<code>Data.Singletons.Maybe</code> exports singleton definitions for <code>Data.Maybe</code>.
+These modules are: <code>List</code> (many definitions are missing), <code>Bool</code>,
+<code>Maybe</code>, <code>Either</code>, <code>Tuple</code>.</p>
+
+<p><code>Data.Singletons.Eq</code> and <code>Data.Singletons.Decide</code> export type classes for
+Boolean and propositional equality, respectively.</p>
+
+<p><code>Data.Singletons.TypeLits</code> exports definitions for working with <code>GHC.TypeLits</code>.
+In GHC 7.6.3, <code>Data.Singletons.TypeLits</code> defines and exports <code>KnownNat</code> and
+<code>KnownSymbol</code>, which are part of <code>GHC.TypeLits</code> in GHC 7.8. This makes cross-version
+support a little easier.</p>
+
+<p><code>Data.Singletons.Void</code> exports a <code>Void</code> type, shamelessly copied from
+Edward Kmett's <code>void</code> package, but without the great many package dependencies
+in <code>void</code>.</p>
+
+<p><code>Data.Singletons.Types</code> exports a few type-level definitions that are in
+<code>base</code> for GHC 7.8, but not in GHC 7.6.3. By importing this package, users
+of both GHC versions can access these definitions.</p>
 
 <h2>Functions to generate singletons</h2>
 

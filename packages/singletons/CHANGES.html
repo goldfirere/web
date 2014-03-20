@@ -8,6 +8,22 @@
 
 <h1>Changelog for singletons project</h1>
 
+<h2>0.10.0</h2>
+
+<p>Template Haskell names are now more hygienic. In other words, <code>singletons</code>
+won't try to gobble up something happened to be named <code>Sing</code> in your project.
+(Note that the Template Haskell names are not <em>completely</em> hygienic; names
+generated during singleton generation can still cause conflicts.)</p>
+
+<p>If a function to be promoted or singletonized is missing a type signature,
+that is now an <em>error</em>, not a warning.</p>
+
+<p>Added a new external module Data.Singletons.TypeLits, which contain the
+singletons for GHC.TypeLits. Some convenience functions are also provided.</p>
+
+<p>The extension <code>EmptyCase</code> is no longer needed. This caused pain when trying
+to support both GHC 7.6.3 and 7.8.</p>
+
 <h2>0.9.3</h2>
 
 <p>Fix export list of Data.Singletons.TH, again again.</p>
