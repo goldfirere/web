@@ -18,18 +18,31 @@ that <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie</a> has her hand in
 project.</p>
 
 <ul>
-<li><span class="projname">System FC with Explicit Kind Equality</span>. We propose an
+<li><span class="projname">Make Haskell dependently typed</span>. We propose an
 update to FC, the internal language of <a href="http://www.haskell.org/ghc/">GHC</a>, 
 that brings kind equalities to the language. The new System FC merges types and kinds
 and has the (*:*) axiom. The
-<a href="papers/2013/fckinds/fckinds.pdf">draft paper</a>
+<a href="papers/2013/fckinds/fckinds.pdf">paper</a>
 (and <a href="papers/2013/fckinds/fckinds-extended.pdf">extended version</a>),
-has been accepted at ICFP 2013,
-is online. I have <a href="packages/nokinds/">implemented</a> these ideas into
+was published at ICFP 2013. I have <a href="packages/nokinds/">implemented</a> these ideas into
 GHC. Ongoing work includes working out a type inference algorithm in order to
 carry our changes from the internal language into Haskell.
-With <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie Weirich</a>
-and <a href="http://www.cis.upenn.edu/~justhsu/">Justin Hsu</a>.</li>
+With <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie Weirich</a>.</li>
+
+<li><span class="projname">Roles in GHC</span>. I have implemented roles into GHC,
+as released as part of GHC 7.8. <a href="papers/2014/coercible/coercible.pdf">Here</a>
+is a draft paper, accepted to ICFP 2014, on the subject. (<a href="papers/2014/coercible/coercible-ext.pdf">extended version</a>) There continues to be ongoing debate about roles
+and the best way forward with them, and I expect to implement whatever new features
+are necessary.</li>
+
+<li><span class="projname">singletons</span>. This project supports the
+<a href="http://github.com/goldfirere/singletons">singletons</a> package, allowing
+a limited form of dependently typed programming in current versions of Haskell. The
+newest version of <tt>singletons</tt> supports the promotion of a wide array of term-level
+functions to type families. See <a href="papers/2014/promotion/promotion.pdf">the draft
+paper</a>. The original
+<a href="papers/2012/singletons/paper.pdf">paper</a> resulting from this work was published
+at the Haskell Symposium, 2012. With Jan Stolarek.</li>
 </ul>
 
 <p>Below are my less active projects. Most weeks do not involve any work on these,
@@ -55,11 +68,6 @@ Vytiniotis</a>,
 <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
 Peyton Jones</a>, and <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie
 Weirich</a>.</li>
-<li><span class="projname">singletons</span>. This project supports the
-<a href="http://hackage.haskell.org/package/singletons">singletons</a> package, allowing
-a limited form of dependently typed programming in current versions of Haskell. The
-<a href="papers/2012/singletons/paper.pdf">paper</a> resulting from this work was published
-at the Haskell Symposium, 2012.</li>
 <li><span class="projname">System FC in GHC</span>. I maintain a formal specification
 of the internal language within GHC <a href="https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true">here</a>.</li>
 <li><span class="projname">Ironclad C++</span>. We define a subset of C++ that
