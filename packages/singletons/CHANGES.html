@@ -8,6 +8,21 @@
 
 <h1>Changelog for singletons project</h1>
 
+<h2>1.0</h2>
+
+<p>This is a complete rewrite of the package.</p>
+
+<ul>
+<li><p>A much wider array of surface syntax is now accepted for promotion
+and singletonization, including <code>let</code>, <code>case</code>, partially-applied functions,
+and anonymous functions, <code>where</code>, sections, among others.</p></li>
+<li><p>Classes and instances can be promoted (but not singletonized).</p></li>
+<li><p>Derivation of promoted instances for <code>Ord</code> and <code>Bounded</code>.</p></li>
+</ul>
+
+<p>This release can be seen as a "technology preview". More features are coming
+soon.</p>
+
 <h2>0.10.0</h2>
 
 <p>Template Haskell names are now more hygienic. In other words, <code>singletons</code>

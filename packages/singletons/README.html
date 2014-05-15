@@ -6,33 +6,43 @@
 <body>
 <div id="wholepage">
 
-<h1>singletons 0.10</h1>
-
-<p><a href="https://travis-ci.org/goldfirere/singletons"><img src="https://travis-ci.org/goldfirere/singletons.svg?branch=master" alt="Build Status" title="" /></a></p>
+<h1>singletons 1.0</h1>
 
 <p>This is the README file for the singletons library. This file contains all the
 documentation for the definitions and functions in the library.</p>
 
-<p>The singletons library was written by Richard Eisenberg, eir@cis.upenn.edu.
-See also <em>Dependently typed programming with singletons</em>, available
-<a href="http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf">here</a>.</p>
+<p>The singletons library was written by Richard Eisenberg, eir@cis.upenn.edu, and
+with significant contributions by Jan Stolarek, jan.stolarek@p.lodz.pl.  There
+are two papers that describe the library. Original one, <em>Dependently typed
+programming with singletons</em>, is available
+<a href="http://www.cis.upenn.edu/~eir/papers/2012/singletons/paper.pdf">here</a> and will
+be referenced in this documentation as the "singletons paper". A follow-up
+paper, <em>Promoting Functions to Type Families in Haskell</em>, will be available
+online Real Soon Now and will be referenced in this documentation as the
+"promotion paper".</p>
 
 <h2>Purpose of the singletons library</h2>
 
-<p>The library contains a definition of <em>singleton types</em>, which allow
-programmers to use dependently typed techniques to enforce rich constraints
-among the types in their programs. See the paper cited above for a
-more thorough introduction.</p>
+<p>The library contains a definition of <em>singleton types</em>, which allow programmers
+to use dependently typed techniques to enforce rich constraints among the types
+in their programs. See the singletons paper for a more thorough introduction.</p>
+
+<p>The package also allows <em>promotion</em> of term-level functions to type-level
+equivalents. Accordingly, it exports a Prelude of promoted and singletonized
+functions, mirroring functions and datatypes found in Prelude, <code>Data.Bool</code>,
+<code>Data.Maybe</code>, <code>Data.Either</code>, <code>Data.Tuple</code> and <code>Data.List</code>. See the promotion
+paper for a more thorough introduction.</p>
 
 <h2>Compatibility</h2>
 
-<p>The singletons library requires GHC version 7.6.3 or greater.
-Any code that uses the singleton generation primitives will also need
-to enable a long list of GHC extensions. This list includes, but
-is not necessarily limited to, the following:</p>
+<p>The singletons library requires GHC 7.8.2 or greater. We plan to restore GHC
+7.6.3 support, but no promises as to when will this happen. Any code that uses
+the singleton generation primitives needs to enable a long list of GHC
+extensions. This list includes, but is not necessarily limited to, the
+following:</p>
 
 <ul>
-<li><code>ScopedTypeVariables</code> (absolutely required)</li>
+<li><code>ScopedTypeVariables</code></li>
 <li><code>TemplateHaskell</code></li>
 <li><code>TypeFamilies</code></li>
 <li><code>GADTs</code></li>
@@ -46,7 +56,7 @@ is not necessarily limited to, the following:</p>
 <li><code>FlexibleInstances</code></li>
 </ul>
 
-<h2>Modules</h2>
+<h2>Modules for singleton types</h2>
 
 <p><code>Data.Singletons</code> exports all the basic singletons definitions. Import this
 module if you are not using Template Haskell and wish only to define your
@@ -56,21 +66,21 @@ own singletons.</p>
 Haskell code to generate new singletons.</p>
 
 <p><code>Data.Singletons.Prelude</code> re-exports <code>Data.Singletons</code> along with singleton
-definitions for various Prelude types. This module is intended to export
-those definitions that are exported by the real <code>Prelude</code>.</p>
+definitions for various Prelude types. This module provides a singletonized
+equivalent of the real <code>Prelude</code>. Note that not all functions from original
+<code>Prelude</code> could be turned into singletons.</p>
 
-<p>There are several modules that echo standard modules. For example,
-<code>Data.Singletons.Maybe</code> exports singleton definitions for <code>Data.Maybe</code>.
-These modules are: <code>List</code> (many definitions are missing), <code>Bool</code>,
-<code>Maybe</code>, <code>Either</code>, <code>Tuple</code>.</p>
+<p><code>Data.Singletons.Prelude.*</code> modules provide singletonized equivalents of
+definitions found in the following <code>base</code> library modules: <code>Data.Bool</code>,
+<code>Data.Maybe</code>, <code>Data.Either</code>, <code>Data.List</code>, <code>Data.Tuple</code> and <code>GHC.Base</code>. We also
+provide singletonized <code>Eq</code> and <code>Ord</code> typeclasses</p>
 
-<p><code>Data.Singletons.Eq</code> and <code>Data.Singletons.Decide</code> export type classes for
-Boolean and propositional equality, respectively.</p>
+<p><code>Data.Singletons.Decide</code> exports type classes for propositional equality.</p>
 
 <p><code>Data.Singletons.TypeLits</code> exports definitions for working with <code>GHC.TypeLits</code>.
 In GHC 7.6.3, <code>Data.Singletons.TypeLits</code> defines and exports <code>KnownNat</code> and
-<code>KnownSymbol</code>, which are part of <code>GHC.TypeLits</code> in GHC 7.8. This makes cross-version
-support a little easier.</p>
+<code>KnownSymbol</code>, which are part of <code>GHC.TypeLits</code> in GHC 7.8. This makes
+cross-version support a little easier.</p>
 
 <p><code>Data.Singletons.Void</code> exports a <code>Void</code> type, shamelessly copied from
 Edward Kmett's <code>void</code> package, but without the great many package dependencies
@@ -79,6 +89,23 @@ in <code>void</code>.</p>
 <p><code>Data.Singletons.Types</code> exports a few type-level definitions that are in
 <code>base</code> for GHC 7.8, but not in GHC 7.6.3. By importing this package, users
 of both GHC versions can access these definitions.</p>
+
+<h2>Modules for function promotion</h2>
+
+<p>Modules in <code>Data.Promotion</code> namespace provide functionality required for
+function promotion. They mostly re-export a subset of definitions from
+respective <code>Data.Singletons</code> modules.</p>
+
+<p><code>Data.Promotion.TH</code> exports all the definitions needed to use the Template
+Haskell code to generate promoted definitions.</p>
+
+<p><code>Data.Promotion.Prelude</code> and <code>Data.Promotion.Prelude.*</code> modules re-export all
+promoted definitions from respective <code>Data.Singletons.Prelude</code>
+modules. <code>Data.Promotion.Prelude.List</code> adds a significant amount of functions
+that couldn't be singletonized but can be promoted. Some functions still don't
+promote - these are documented in the source code of the module. There is also
+<code>Data.Promotion.Prelude.Bounded</code> module that provides promoted <code>PBounded</code>
+typeclass.</p>
 
 <h2>Functions to generate singletons</h2>
 
@@ -93,17 +120,20 @@ which I'll describe here:</p>
 requires promotion, this also promotes all of the definitions given to the
 type level.</p>
 
-<p>To use:
-    $(singletons [d|
-      data Nat = Zero | Succ Nat
-      pred :: Nat -> Nat
-      pred Zero = Zero
-      pred (Succ n) = n
-      |])</p>
+<p>Usage example:</p>
+
+<p><code>haskell
+$(singletons [d|
+  data Nat = Zero | Succ Nat
+  pred :: Nat -&gt; Nat
+  pred Zero = Zero
+  pred (Succ n) = n
+  |])
+</code></p>
 
 <h2>Definitions used to support singletons</h2>
 
-<p>Please refer to the paper cited above for a more in-depth explanation of these
+<p>Please refer to the singletons paper for a more in-depth explanation of these
 definitions. Many of the definitions were developed in tandem with Iavor Diatchki.</p>
 
 <pre><code>data family Sing (a :: k)
@@ -140,7 +170,7 @@ singleton <code>Nat</code> back to an ordinary <code>Nat</code>. The <code>toSin
 an existentially-quantified singleton, wrapped up in a <code>SomeSing</code>.
 The <code>DemoteRep</code> associated
 kind-indexed type family maps a proxy of the kind <code>Nat</code>
-back to the type <code>Nat</code>. </p>
+back to the type <code>Nat</code>.</p>
 
 <pre><code>data SingInstance (a :: k) where
   SingInstance :: SingI a =&gt; SingInstance a
@@ -161,7 +191,7 @@ equality and propositional equality.</p>
 <ul>
 <li><p>Boolean equality is implemented in the type family <code>(:==)</code> (which is actually
 a synonym for the type family <code>(==)</code> from <code>Data.Type.Equality</code>) and the class
-<code>SEq</code>. See the <code>Data.Singletons.Eq</code> module for more information.</p></li>
+<code>SEq</code>. See the <code>Data.Singletons.Prelude.Eq</code> module for more information.</p></li>
 <li><p>Propositional equality is implemented through the constraint <code>(~)</code>, the type
 <code>(:~:)</code>, and the class <code>SDecide</code>. See modules <code>Data.Type.Equality</code> and
 <code>Data.Singletons.Decide</code> for more information.</p></li>
@@ -195,59 +225,125 @@ by default:</p>
 operate on these singletons are available from modules such as <code>Data.Singletons.Bool</code>
 and <code>Data.Singletons.Maybe</code>.</p>
 
+<h2>Promoting functions</h2>
+
+<p>Function promotion allows to generate type-level equivalents of term-level
+definitions. Almost all Haskell source constructs are supported -- see last
+section of this README for a full list.</p>
+
+<p>Promoted definitions are usually generated by calling <code>promote</code> function:</p>
+
+<p><code>haskell
+$(promote [d|
+  data Nat = Zero | Succ Nat
+  pred :: Nat -&gt; Nat
+  pred Zero = Zero
+  pred (Succ n) = n
+  |])
+</code></p>
+
+<p>Every promoted function and data constructor definition comes with a set of
+so-called "symbols". These are required to represent partial application at the
+type level. Each function gets N+1 symbols, where N is the arity. Symbols
+represent application of between 0 to N arguments. When calling any of the
+promoted definitions it is important refer to it using their symbol
+name. Moreover, there is new function application at the type level represented
+by <code>Apply</code> type family. Symbol representing arity X can have X arguments passed
+in using normal function application. All other parameters must be passed by
+calling <code>Apply</code>.</p>
+
+<p>Users also have access to <code>Data.Promotion.Prelude</code> and its submodules (<code>Base</code>,
+<code>Bool</code>, <code>Either</code>, <code>List</code>, <code>Maybe</code> and <code>Tuple</code>). These provide promoted versions
+of function found in GHC's base library.</p>
+
+<p>Refer to the promotion paper for more details on function promotion.</p>
+
 <h2>On names</h2>
 
 <p>The singletons library has to produce new names for the new constructs it
 generates. Here are some examples showing how this is done:</p>
 
-<p>original datatype: <code>Nat</code> <br />
-promoted kind: <code>Nat</code> <br />
-singleton type: <code>SNat</code> (which is really a synonym for <code>Sing</code>)  </p>
+<ol>
+<li><p>original datatype: <code>Nat</code></p>
 
-<p>original datatype: <code>:/\:</code> <br />
-promoted kind: <code>:/\:</code> <br />
-singleton type: <code>:%/\:</code>  </p>
+<p>promoted kind: <code>Nat</code></p>
 
-<p>original constructor: <code>Zero</code> <br />
-promoted type: <code>'Zero</code> (you can use <code>Zero</code> when unambiguous) <br />
-singleton constructor: <code>SZero</code>  </p>
+<p>singleton type: <code>SNat</code> (which is really a synonym for <code>Sing</code>)</p></li>
+<li><p>original datatype: <code>:/\:</code></p>
 
-<p>original constructor: <code>:+:</code> <br />
-promoted type: <code>':+:</code> <br />
-singleton constructor: <code>:%+:</code>  </p>
+<p>promoted kind: <code>:/\:</code></p>
 
-<p>original value: <code>pred</code> <br />
-promoted type: <code>Pred</code> <br />
-singleton value: <code>sPred</code>  </p>
+<p>singleton type: <code>:%/\:</code></p></li>
+<li><p>original constructor: <code>Succ</code></p>
 
-<p>original value: <code>+</code> <br />
-promoted type: <code>:+</code> <br />
-singleton value: <code>%:+</code>  </p>
+<p>promoted type: <code>'Succ</code> (you can use <code>Succ</code> when unambiguous)</p>
+
+<p>singleton constructor: <code>SSucc</code></p>
+
+<p>symbols: <code>SuccSym0</code>, <code>SuccSym1</code></p></li>
+<li><p>original constructor: <code>:+:</code></p>
+
+<p>promoted type: <code>':+:</code></p>
+
+<p>singleton constructor: <code>:%+:</code></p>
+
+<p>symbols: <code>:+:$</code>, <code>:+:$$</code>, <code>:+:$$$</code></p></li>
+<li><p>original value: <code>pred</code></p>
+
+<p>promoted type: <code>Pred</code></p>
+
+<p>singleton value: <code>sPred</code></p>
+
+<p>symbols: <code>PredSym0</code>, <code>PredSym1</code></p></li>
+<li><p>original value: <code>+</code></p>
+
+<p>promoted type: <code>:+</code></p>
+
+<p>singleton value: <code>%:+</code></p>
+
+<p>symbols: <code>:+$</code>, <code>:+$$</code>, <code>:+$$$</code></p></li>
+</ol>
 
 <h2>Special names</h2>
 
 <p>There are some special cases:</p>
 
-<p>original datatype: <code>[]</code> <br />
-singleton type: <code>SList</code></p>
+<ol>
+<li><p>original datatype: <code>[]</code></p>
 
-<p>original constructor: <code>[]</code> <br />
-singleton constructor: <code>SNil</code></p>
+<p>singleton type: <code>SList</code></p></li>
+<li><p>original constructor: <code>[]</code></p>
 
-<p>original constructor: <code>:</code> <br />
-singleton constructor: <code>SCons</code></p>
+<p>promoted type: <code>'[]</code></p>
 
-<p>original datatype: <code>(,)</code> <br />
-singleton type: <code>STuple2</code></p>
+<p>singleton constructor: <code>SNil</code></p>
 
-<p>original constructor: <code>(,)</code> <br />
-singleton constructor: <code>STuple2</code></p>
+<p>symbols: <code>NilSym0</code></p></li>
+<li><p>original constructor: <code>:</code></p>
 
-<p>All tuples (including the 0-tuple, unit) are treated similarly.</p>
+<p>promoted type: <code>':</code></p>
 
-<p>original value: <code>undefined</code> <br />
-promoted type: <code>Any</code> <br />
-singleton value: <code>undefined</code></p>
+<p>singleton constructr: <code>SCons</code></p>
+
+<p>symbols: <code>ConsSym0</code>, <code>ConsSym1</code></p></li>
+<li><p>original datatype: <code>(,)</code></p>
+
+<p>singleton type: <code>STuple2</code></p></li>
+<li><p>original constructor: <code>(,)</code></p>
+
+<p>promoted type: <code>'(,)</code></p>
+
+<p>singleton constructor: <code>STuple2</code></p>
+
+<p>symbols: <code>Tuple2Sym0</code>, <code>Tuple2Sym1</code>, <code>Tuple2Sym2</code></p>
+
+<p>All tuples (including the 0-tuple, unit) are treated similarly.</p></li>
+<li><p>original value: <code>undefined</code></p>
+
+<p>promoted type: <code>Any</code></p>
+
+<p>singleton value: <code>undefined</code></p></li>
+</ol>
 
 <h2>Supported Haskell constructs</h2>
 
@@ -259,46 +355,76 @@ singleton value: <code>undefined</code></p>
 <li>constructors</li>
 <li>if statements</li>
 <li>infix expressions</li>
-<li>!, ~, and _ patterns</li>
-<li>aliased patterns (except at top-level)</li>
+<li><code>_</code> patterns</li>
+<li>aliased patterns</li>
 <li>lists</li>
-<li>(+) sections</li>
-<li>(x +) sections</li>
+<li>sections</li>
 <li>undefined</li>
 <li>error</li>
 <li>deriving Eq</li>
-<li>class constraints</li>
+<li>class constraints (though these sometimes fail with <code>let</code>, <code>lambda</code>, and <code>case</code>)</li>
 <li>literals (for <code>Nat</code> and <code>Symbol</code>)</li>
-</ul>
-
-<p>The following constructs will be coming soon:</p>
-
-<ul>
-<li>unboxed tuples</li>
+<li>unboxed tuples (which are treated as normal tuples)</li>
 <li>records</li>
-<li>scoped type variables</li>
-<li>overlapping patterns</li>
 <li>pattern guards</li>
-<li>(+ x) sections</li>
 <li>case</li>
 <li>let</li>
-<li>list comprehensions</li>
 <li>lambda expressions</li>
-<li>do</li>
-<li>arithmetic sequences</li>
 </ul>
 
-<p>As described briefly in the paper, the singletons generation mechanism does not
-currently work for higher-order datatypes (though higher-order functions are
-just peachy). So, if you have a declaration such as</p>
+<p>The following constructs are supported for promotion but not singleton generation:</p>
+
+<ul>
+<li><code>!</code> and <code>~</code> patterns (silently but successfully ignored during promotion)</li>
+<li>class and instance declarations</li>
+<li>deriving of promoted <code>Eq</code>, <code>Ord</code> and <code>Bounded</code> instances</li>
+<li>scoped type variables</li>
+<li>overlapping patterns (GHC 7.8.2+ only). Note that overlapping patterns are
+sometime not obvious. For example <code>filter</code> function does not singletonize due
+to overlapping patterns:
+<code>haskell
+filter :: (a -&gt; Bool) -&gt; [a] -&gt; [a]
+filter _pred []    = []
+filter pred (x:xs)
+| pred x         = x : filter pred xs
+| otherwise      = filter pred xs
+</code>
+Overlap is caused by <code>otherwise</code> catch-all guard, that is always true and this
+overlaps with <code>pred x</code> guard.</li>
+</ul>
+
+<p>The following constructs are not supported:</p>
+
+<ul>
+<li>list comprehensions</li>
+<li>do</li>
+<li>arithmetic sequences</li>
+<li>datatypes that store arrows</li>
+<li>literals</li>
+</ul>
+
+<p>Why are these out of reach? First two depend on monads, which mention a
+higher-kinded type variable. GHC does not support higher-sorted kind variables,
+which would be necessary to promote/singletonize monads. There are other tricks
+possible, too, but none are likely to work. See the bug report
+<a href="https://github.com/goldfirere/singletons/issues/37">here</a> for more info.
+Arithmetic sequences are defined using <code>Enum</code> typeclass, which uses infinite
+lists.</p>
+
+<p>As described in the promotion paper, promotion of datatypes that store arrows is
+currently impossible. So if you have a declaration such as</p>
 
 <pre><code>data Foo = Bar (Bool -&gt; Maybe Bool)
 </code></pre>
 
-<p>its singleton will not work correctly. It turns out that getting this to work
-requires fairly thorough changes to the whole singleton generation scheme.
-Please shout (to eir@cis.upenn.edu) if you have a compelling use case for this
-and I can take a look at it. No promises, though.</p>
+<p>you will quickly run into errors.</p>
+
+<p>Literals are problematic because we rely on GHC's built-in support, which
+currently is limited. Functions that operate on strings will not work because
+type level strings are no longer considered lists of characters. Function
+working on integer literals can be promoted by rewriting them to use
+<code>Nat</code>. Since <code>Nat</code> does not exist at the term level it will only be possible to
+use the promoted definition, but not the original, term-level one.</p>
 
 <h2>Support for <code>*</code></h2>
 
@@ -324,7 +450,25 @@ built-in promotion mechanism will not promote <code>TypeRep</code> to <code>*</c
 of types with which to work. See the Haddock documentation for the function
 <code>singletonStar</code> for more info.</p>
 
+<h2>Known bugs</h2>
+
+<ul>
+<li>Due to GHC bug #9081 deriving of hand-written instances of <code>Ord</code>, <code>Eq</code> and
+<code>Bounded</code> is not supported. Your only option here is to have these instances
+derived automatically.</li>
+<li>Fixity declarations don't promote due to GHC bug #9066.</li>
+<li>Instances with overlapping patterns don't promote. This will be fixed Real
+Soon Now.</li>
+<li>Top-level eta-reduced patterns don't singletonize</li>
+<li>Record updates don't singletonize</li>
+</ul>
+
 <h2>Changes from earlier versions</h2>
+
+<p>singletons 1.0 provides promotion mechanism that supports case expressions, let
+statements, anonymous functions, higher order functions and many other
+features. This version of the library was published together with the promotion
+paper.</p>
 
 <p>singletons 0.9 contains a bit of an API change from previous versions. Here is
 a summary:</p>
