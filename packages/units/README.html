@@ -7,17 +7,42 @@
 <body>
 <div id="wholepage">
 
-<h1>This is out of date for units-2.0. It will be updated Real Soon Now.</h1>
-
 <h1>units</h1>
 
 <p>The <em>units</em> package provides a mechanism for compile-time dimensional analysis
 in Haskell programs. It defines an embedded type system based on
-units-of-measure. The units defined are fully extensible, and need not relate
-to physical properties. In fact, the core package defines only one built-in
-unit: Scalar. The package supports defining multiple inter-convertible units,
-such as Meter and Foot. When extracting a number from a dimensioned quantity,
-the desired unit must be specified, and the value is converted into that unit.</p>
+units-of-measure. The units and dimensions defined are fully extensible, and
+need not relate to physical properties. This package exports definitions
+only for <code>Dimensionless</code> and <code>Number</code>. The set of units and dimensions from
+the International System (SI) are exported from the companion package <code>units-defs</code>.</p>
+
+<p>This package supports independent notions of <em>dimension</em> and <em>unit</em>. Examples
+of dimensions include length and mass. Examples of unit include meter and
+gram. Every unit measures a particular dimension, but a given dimension
+may be measure by many different units. For example, both meters and feet
+measure length.</p>
+
+<p>The package supports defining multiple inter-convertible units of the same
+dimension, such as <code>Meter</code> and <code>Foot</code>. When extracting a numerical value from
+a quantity, the desired unit must be specified, and the value is converted
+into that unit.</p>
+
+<p>The laws of nature have dimensions, and they hold true regardless of the units
+used. For example, the gravitational force between two bodies is
+<code>(gravitational constant) * (mass 1) * (mass 2) / (distance between body 1 and
+2)^2</code>, regardless of whether the distance is given in meters or feet
+or centimeters. In other words, every law of nature is unit-polymorphic.</p>
+
+<p>The <em>units</em> package supports unit-polymorphic programs through the coherent
+system of units (CSU) mechanism. A CSU is essentially a mapping from
+dimensions to the units. All dimensioned quantities (generally just called
+quantities) are expressed using the <code>Qu</code> type. The <code>Qu</code> type constructor takes
+a (perhaps compound) dimension, a CSU and a numerical value type as arguments.
+Internally, the quantity is stored as a number in the units as specified in
+the CSU -- this may matter if you are worried about rounding errors. In the
+sequence of computations that works within one CSU, there is no unit
+conversion. Unit conversions are needed only when putting values in and out of
+quantities, or converting between two different CSUs.</p>
 
 <h2>User contributions</h2>
 
@@ -31,62 +56,69 @@ new package), please write me!</p>
 
 <h2>Modules</h2>
 
-<p>The <em>units</em> package exports several modules. For any given project, you will
-include some set of these modules. There are dependency relationships
-between them. Of course, you're welcome to <code>import</code> a module without its
-dependents, but it probably won't be very useful to you. I hope that this list
-grows over time.</p>
+<p>The <em>units</em> package exports several key modules:</p>
 
 <ul>
-<li><p><strong><code>Data.Dimensions</code></strong></p>
+<li><p><strong><code>Data.Metrology</code></strong></p>
 
 <p>This is the main exported module. It exports all the necessary functionality
 for you to build your own set of units and operate with them. All modules
 implicitly depend on this one.</p></li>
-<li><p><strong><code>Data.Dimensions.Poly</code></strong></p>
+<li><p><strong><code>Data.Metrology.Internal</code></strong></p>
 
-<p>This module exports some more definitions that may be useful when writing
-functions polymorphic over the choice of dimension. These functions are
-sometimes challenging (or perhaps impossible) to write, as the system is
-designed more with <em>monomorphic</em> use than polymorphic use.</p></li>
-<li><p><strong><code>Data.Dimensions.Unsafe</code></strong></p>
+<p>This module contains mostly-internal definitions that may appear in GHC's error
+messages. Users will generally not need to use these definitions in their code.
+However, by exporting this module from within <code>Data.Metrology</code>, we can reduce
+the module-prefix clutter in error messages.</p></li>
+<li><p><strong><code>Data.Metrology.Unsafe</code></strong></p>
 
 <p>This module exports the constructor for the central datatype that stores
-dimensioned quantities. With this constructor, you can arbitrarily change
+quantities. With this constructor, you can arbitrarily change
 units! Use at your peril.</p></li>
-<li><p><strong><code>Data.Dimensions.Show</code></strong></p>
+<li><p><strong><code>Data.Metrology.Show</code></strong></p>
 
-<p>This module defines a <code>Show</code> instance for dimensioned quantities, printing
+<p>This module defines a <code>Show</code> instance for quantities, printing
 out the number stored along with its canonical dimension. This behavior
-may not be the best for every setting, so it is exported separately.</p></li>
-<li><p><strong><code>Data.Dimensions.SI</code></strong></p>
-
-<p>This module exports unit definitions for the <a href="http://en.wikipedia.org/wiki/International_System_of_Units">SI</a> system of units,
-re-exporting the three modules below.</p></li>
-<li><p><strong><code>Data.Dimensions.SI.Units</code></strong></p>
-
-<p>This module exports only the SI units, such as <code>Meter</code> and <code>Ampere</code>.</p></li>
-<li><p><strong><code>Data.Dimensions.SI.Types</code></strong></p>
-
-<p>This module exports several useful types for use with the SI.Units module,
-which it depends on. For example, <code>Length</code> is the type of dimensioned
-quantities made with <code>Meter</code>s.</p></li>
-<li><p><strong><code>Data.Dimensions.SI.Prefixes</code></strong></p>
-
-<p>This module exports the SI prefixes. Note that this does <em>not</em> depend on
-any of the other SI modules -- you can use these prefixes with any system
-of units.</p></li>
+may not be the best for every setting, so it is exported separately.
+Importing this module reduces the guaranteed unit-safety of your code,
+because it allows you to inspect (in a round-about way) how your quantities
+are stored.</p></li>
 </ul>
 
 <h1>Examples</h1>
 
+<p>We will build up a full working example in several sections. It is awkward to explain
+the details of the pieces until the whole example is built, so please read on to
+see how it all works.</p>
+
+<h2>Dimension definitions</h2>
+
+<p>When setting up your well-typed units-of-measure program, the first step is
+to define the dimensions you will be working in. (If your application involves
+physical quantities, you may want to check <code>Data.Metrology.SI.Dims</code> in the
+<code>units-defs</code> package first.)</p>
+
+<pre><code>data LengthDim = LengthDim  -- each dimension is a datatype that acts as its own proxy
+instance Dimension LengthDim
+
+data TimeDim = TimeDim
+instance Dimension TimeDim
+</code></pre>
+
+<p>We can now build up dimensions from these base dimensions:</p>
+
+<pre><code>type VelocityDim = LengthDim :/ TimeDim
+</code></pre>
+
 <h2>Unit definitions</h2>
 
-<p>Here is how to define two inter-convertible units:</p>
+<p>We then define units to work with these dimensions. Here, we define two different
+inter-convertible units for length.</p>
 
-<pre><code>data Meter = Meter    -- each unit is a datatype that acts as its own proxy
+<pre><code>data Meter = Meter
 instance Unit Meter where           -- declare Meter as a Unit
   type BaseUnit Meter = Canonical   -- Meters are "canonical"
+  type DimOfUnit Meter = LengthDim  -- Meters measure Lengths
 instance Show Meter where           -- Show instances are optional but useful
   show _ = "m"                      -- do *not* examine the argument!
 
@@ -94,49 +126,125 @@ data Foot = Foot
 instance Unit Foot where
   type BaseUnit Foot = Meter        -- Foot is defined in terms of Meter
   conversionRatio _ = 0.3048        -- do *not* examine the argument!
+                                    -- We don't need to specify the `DimOfUnit`;
+                                    -- it's implied by the `BaseUnit`.
 instance Show Foot where
   show _ = "ft"
 
-type Length = MkDim Meter           -- we will manipulate Lengths
-type Length' = MkDim Foot           -- this is the *same* as Length
-
-extend :: Length -&gt; Length          -- a function over lengths
-extend x = dim $ x .+ (1 % Meter)   -- more on this later
-
-inMeters :: Length -&gt; Double        -- extract the # of meters
-inMeters = (# Meter)                -- more on this later
+data Second = Second
+instance Unit Second where
+  type BaseUnit Second = Canonical
+  type DimOfUnit Second = TimeDim
+instance Show Second where
+  show _ = "s"
 </code></pre>
 
-<p>Let's pick this apart. The <code>data Meter = Meter</code> declaration creates both the
-type <code>Meter</code> and a term-level proxy for it. It would be possible to get away
-without the proxies and lots of type annotations, but who would want to?
-Then, we define an instance of <code>Unit</code> to make <code>Meter</code> into a proper unit.
-The <code>Unit</code> class is primarily responsible for handling unit conversions.
-In the case of <code>Meter</code>, we define that as the <em>canonical</em> unit of length, meaning
-that all lengths will internally be stored in meters. It also means that we
-don't need to define a conversion ratio for meters.</p>
+<h2>A unit assignment</h2>
+
+<p>To perform computations with <em>units</em>, we must define a so-called <em>local coherent
+set of units</em>, or LCSU. This is a mapping from dimensions to units, and it informs
+exactly how the quantities are stored. For example:</p>
+
+<pre><code>type LCSU = MkLCSU '[(LengthDim, Meter), (TimeDim, Second)]
+</code></pre>
+
+<p>This definition says that we wish to store lengths in meters and times in seconds.
+Note that, even though <code>Meter</code> is defined as the <code>Canonical</code> length, we could have
+used <code>Foot</code> in our LCSU. Canonical units are used only in conversion between
+units, not the choice of how to store a quantity.</p>
+
+<h2>Value types</h2>
+
+<p>To use all these pieces to build the actual type that will store quantities, we
+use one of the <code>MkQu_xxx</code> type synonyms, as follows:</p>
+
+<pre><code>type Length = MkQu_DLN LengthDim LCSU Double
+  -- Length stores lengths in our defined LCSU, using `Double` as the numerical type
+type Length' = MkQu_ULN Foot LCSU Double
+  -- same as Length. Note the `U` in `MkQu_ULN`, allowing it to take a unit
+
+type Time = MkQu_DLN TimeDim LCSU Double
+</code></pre>
+
+<h2>Some computations</h2>
+
+<p>We now show some example computations on the defined types:</p>
+
+<pre><code>extend :: Length -&gt; Length            -- a function over lengths
+extend x = redim $ x |+| (1 % Meter)
+
+inMeters :: Length -&gt; Double          -- extract the # of meters
+inMeters = (# Meter)                  -- more on this later
+
+conversion :: Length                  -- mixing units
+conversion = (4 % Meter) |+| (10 % Feet)
+
+vel :: Length %/ Time                 -- The `%*` and `%/` operators allow
+                                      -- you to combine types
+vel = (3 % Meter) |/| (2 % Second)
+</code></pre>
+
+<h2>Explanation</h2>
+
+<p>Let's pick this apart. The <code>data LengthDim = LengthDim</code> declaration creates both the
+type <code>LengthDim</code> and a term-level proxy for it. It would be possible to get away
+without the proxies and use lots of type annotations, but who would want to?
+We must define an instance of <code>Dimension</code> to declare that <code>LengthDim</code> is a dimension.
+Why suffix with <code>Dim</code>? To distinguish the length dimension from the length type.
+Generally, the type is mentioned more often and should be the shorter name.</p>
+
+<p>We then create a <code>TimeDim</code> to operate alongside the <code>LengthDim</code>. Using the
+<code>:/</code> combinator, we can create a <code>VelocityDim</code> out of the two dimensions defined
+so far. See below for more information on unit combinators.</p>
+
+<p>Then, we make some units, using similar <code>data</code> definitions. We define an
+instance of <code>Unit</code> to make <code>Meter</code> into a proper unit. The <code>Unit</code> class is
+primarily responsible for handling unit conversions. In the case of <code>Meter</code>,
+we define that as the <em>canonical</em> unit of length, meaning that all lengths
+will internally be stored in meters. It also means that we don't need to
+define a conversion ratio for meters. You will also see that we say that
+<code>Meter</code>s measure the dimension <code>LengthDim</code>, through the <code>DimOfUnit</code> declaration.</p>
 
 <p>We also include a <code>Show</code> instance for <code>Meter</code> so that lengths can be printed
 easily. If you don't need to <code>show</code> your lengths, there is no need for this
 instance.</p>
 
 <p>When defining <code>Foot</code>, we say that its <code>BaseUnit</code> is <code>Meter</code>, meaning that
-<code>Foot</code> is inter-convertible with <code>Meter</code>. We also must define the conversion
+<code>Foot</code> is inter-convertible with <code>Meter</code>. This declaration also says that
+the dimension measured by a <code>Foot</code> must be the same as the dimension for
+a <code>Meter</code>. We must then define the conversion
 ratio, which is the number of meters in a foot. Note that the
 <code>conversionRatio</code> method must take a parameter to fix its type parameter, but
 it <em>must not</em> inspect that parameter. Internally, it will be passed
 <code>undefined</code> quite often.</p>
 
-<p>The <code>MkDim</code> type synonym makes a dimensioned quantity for a given unit. Note
-that <code>Length</code> and <code>Length'</code> are <em>the same type</em>. The <code>MkDim</code> machinery notices
+<p>The definition for <code>Second</code> is quite similar to that for <code>Meter</code>.</p>
+
+<p>The next section of code constructs an "LCSU" -- a local coherent set of units.
+The idea is that we wish to be able to choose a set of units which are to be
+used in the internal, concrete representation. An LCSU is just an association
+list giving a concrete unit for each dimension in your domain. The particular
+LCSU here says that length is stored in meters and time is stored in
+seconds. It would be invalid to specify an LCSU with repeats for either
+dimension or unit.</p>
+
+<p>With all this laid out, we can make the types that store values. <em>units</em>
+exports several <code>MkQu_xxx</code> type synonyms that vary in the arguments they
+expect. <code>MkQu_DLN</code>, for example, takes a dimension, an LCSU, and a
+numerical type. With the definition above, <code>Length</code> is now a type suitable
+for storing lengths.</p>
+
+<p>Note
+that <code>Length</code> and <code>Length'</code> are <em>the same type</em>. The <code>MkQu</code> machinery notices
 that these two are inter-convertible and will produce the same dimensioned
 quantity.</p>
 
 <p>Note that, as you can see in the function examples at the end, it is necessary
-to specify the choice of unit when creating a dimensioned quantity or
-extracting from a dimensioned quantity. Thus, other than thinking about the
+to specify the choice of unit when creating a quantity or
+extracting from a quantity. Thus, other than thinking about the
 vagaries of floating point wibbles and the <code>Show</code> instance, it is <em>completely
-irrelevant</em> which unit is canonical. The type <code>Length</code> defined here could be
+irrelevant</em> which unit the concrete unit in the LCSU.
+The type <code>Length</code> defined here could be
 used equally well in a program that deals exclusively in feet as it could in a
 program with meters.</p>
 
@@ -145,6 +253,8 @@ Meter = Meter</code> and <code>data Meter = Meters</code> (note the <code>s</cod
 often flows more nicely in code, but the annoyance of having to remember
 whether I was at the type level or the term level led me to use the former in
 my work.</p>
+
+<h1>Other features</h1>
 
 <h2>Prefixes</h2>
 
@@ -177,42 +287,31 @@ longWayAwayInMeters = longWayAway # Meter  -- 150000.0
 
 <h2>Unit combinators</h2>
 
-<p>There are several ways of combining units to create other units. Let's also
-have a unit of time:</p>
-
-<pre><code>data Second = Second
-instance Unit Second where
-  type BaseUnit Second = Canonical
-instance Show Second where
-  show _ = "s"
-
-type Time = MkDim Second
-</code></pre>
-
-<p>Units can be multiplied and divided with the operators <code>:*</code> and <code>:/</code>, at either
+<p>There are several ways of combining units to create other units.
+Units can be multiplied and divided with the operators <code>:*</code> and <code>:/</code>, at either
 the term or type level. For example:</p>
 
 <pre><code>type MetersPerSecond = Meter :/ Second
-type Velocity1 = MkDim MetersPerSecond
+type Velocity1 = MkQu_DLN MetersPerSecond LCSU Double
 
 speed :: Velocity1
 speed = 20 % (Meter :/ Second)
 </code></pre>
 
 <p>The <em>units</em> package also provides combinators "%*" and "%/" to combine the
-types of dimensioned quantities.</p>
+types of quantities.</p>
 
 <pre><code>type Velocity2 = Length %/ Time    -- same type as Velocity1
 </code></pre>
 
 <p>There are also exponentiation combinators <code>:^</code> (for units) and <code>%^</code> (for
-dimensioned quantities) to raise to a power. To represent the power, the
+quantities) to raise to a power. To represent the power, the
 <em>units</em> package exports <code>Zero</code>, positive numbers <code>One</code> through <code>Five</code>, and
 negative numbers <code>MOne</code> through <code>MFive</code>. At the term level, precede the number
 with a <code>p</code> (mnemonic: "power"). For example:</p>
 
 <pre><code>type MetersSquared = Meter :^ Two
-type Area1 = MkDim MetersSquared
+type Area1 = MkQu MetersSquared
 type Area2 = Length %^ Two        -- same type as Area1
 
 roomSize :: Area1
@@ -227,35 +326,63 @@ those operations are not provided.</p>
 
 <h2>Dimension-safe cast</h2>
 
-<p>The haddock documentation shows the term-level dimensioned quantity
-combinators. The only one deserving special mention is <code>dim</code>, the
+<p>The haddock documentation shows the term-level quantity
+combinators. The only one deserving special mention is <code>redim</code>, the
 dimension-safe cast operator. Expressions written with the <em>units</em> package can
 have their types inferred. This works just fine in practice, but the types are
 terrible, unfortunately. Much better is to use top-level annotations (using
 abbreviations like <code>Length</code> and <code>Time</code>) for your functions. However, it may
 happen that the inferred type of your expression and the given type of your
-function may not exactly match up. This is because dimensioned quantities have
+function may not exactly match up. This is because quantities have
 a looser notion of type equality than Haskell does. For example, "meter *
 second" should be the same as "second * meter", even though these are in
-different order. The <code>dim</code> function checks (at compile time) to make sure its
+different order. The <code>redim</code> function checks (at compile time) to make sure its
 input type and output type represent the same underlying dimension and then
 performs a cast from one to the other. This cast is completely free at
 runtime. When providing type annotations, it is good practice to start your
-function with a <code>dim $</code> to prevent the possibility of type errors. For
+function with a <code>redim $</code> to prevent the possibility of type errors. For
 example, say we redefine velocity a different way:</p>
 
 <pre><code>type Velocity3 = Scalar %/ Time %* Length
 addVels :: Velocity1 -&gt; Velocity1 -&gt; Velocity3
-addVels v1 v2 = dim $ v1 .+ v2
+addVels v1 v2 = redim $ v1 |+| v2
 </code></pre>
 
-<p>This is a bit contrived, but it demonstrates the point. Without the <code>dim</code>, the
-<code>addVels</code> function would not type-check. Because <code>dim</code> needs to know its
+<p>This is a bit contrived, but it demonstrates the point. Without the <code>redim</code>, the
+<code>addVels</code> function would not type-check. Because <code>redim</code> needs to know its
 <em>result</em> type to type-check, it should only be used at the top level, such as
 here, where there is a type annotation to guide it.</p>
 
-<p>Note that <code>dim</code> is <em>always</em> dimension-safe -- it will not convert a time to a
+<p>Note that <code>redim</code> is <em>always</em> dimension-safe -- it will not convert a time to a
 length!</p>
+
+<h1>Monomorphic behavior</h1>
+
+<p><em>units</em> provides a facility for ignoring LCSUs, if your application does not
+need to worry about numerical precision. The facility is through the type
+family <code>DefaultUnitOfDim</code>. For example, with the definitions above, we could
+say</p>
+
+<p>type instance DefaultUnitOfDim LengthDim = Meter
+   type instance DefaultUnitOfDim TimeDim   = Second</p>
+
+<p>and then use the <code>DefaultLCSU</code> for our LCSU. To make the use of the default
+LCSU even easier, the <code>MkQu_xxx</code> operators that don't mention an LCSU all
+use the default one. So, we can say</p>
+
+<p>type Length = MkQu_D LengthDim</p>
+
+<p>and get to work. (This uses <code>Double</code> as the underlying numerical representation.)</p>
+
+<p>The module <code>Data.Metrology.SI</code> from the <em>units-defs</em> package exports type
+instances for <code>DefaultUnitOfDim</code> for the SI types, meaning that you can use
+definitions like this right away.</p>
+
+<h1>More examples</h1>
+
+<p>Check out some of the test examples we have written to get more of a feel for
+how this all works,
+<a href="https://github.com/goldfirere/units/tree/master/Test">here</a>.</p>
 
 </div>
 </body>
