@@ -17,27 +17,27 @@ collaborators are listed, it can be assumed
 that <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie</a> has her hand in the
 project.</p>
 
-<p>Also, check out my <a href="https://github.com/goldfirere">GitHub page</a> to 
-see what I've been working on recently.</p> 
+<p>Also, check out my <a href="https://github.com/goldfirere">GitHub page</a> to
+see what I've been working on recently.</p>
 
 <ul>
 <li><span class="projname">Make Haskell dependently typed</span>. We propose an
-update to FC, the internal language of <a href="http://www.haskell.org/ghc/">GHC</a>, 
+update to FC, the internal language of <a href="http://www.haskell.org/ghc/">GHC</a>,
 that brings kind equalities to the language. The new System FC merges types and kinds
 and has the (*:*) axiom. The
 <a href="papers/2013/fckinds/fckinds.pdf">paper</a>
 (and <a href="papers/2013/fckinds/fckinds-extended.pdf">extended version</a>),
-was published at ICFP 2013. I have <a href="packages/nokinds/">implemented</a> these ideas into
-GHC. Ongoing work includes working out a type inference algorithm in order to
-carry our changes from the internal language into Haskell.
-With <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie Weirich</a>.</li>
+was published at ICFP 2013. I have <a href="https://github.com/goldfirere/ghc/">implemented</a> these ideas into
+GHC. (<a href="papers/2015/equalities/equalities.pdf">Here</a> is a draft paper
+about the implementation.) Ongoing work includes adding proper Pi-types. Some work is expected
+to be merged for GHC 7.12, and the rest, hopefully for GHC 7.14.</li>
 
-<li><span class="projname">Roles in GHC</span>. I have implemented roles into GHC,
-as released as part of GHC 7.8. <a href="papers/2014/coercible/coercible.pdf">Here</a>
-is a draft paper, accepted to ICFP 2014, on the subject. (<a href="papers/2014/coercible/coercible-ext.pdf">extended version</a>) There continues to be ongoing debate about roles
-and the best way forward with them, and I expect to implement whatever new features
-are necessary.</li>
+</ul>
 
+<p>Below are my less active projects. Most weeks do not involve any work on these,
+but issues crop up now and again.</p>
+
+<ul>
 <li><span class="projname">singletons</span>. This project supports the
 <a href="http://github.com/goldfirere/singletons">singletons</a> package, allowing
 a limited form of dependently typed programming in current versions of Haskell. The
@@ -46,15 +46,9 @@ functions to type families. See <a href="papers/2014/promotion/promotion.pdf">th
 paper</a>. The original
 <a href="papers/2012/singletons/paper.pdf">paper</a> resulting from this work was published
 at the Haskell Symposium, 2012. With Jan Stolarek.</li>
-</ul>
-
-<p>Below are my less active projects. Most weeks do not involve any work on these,
-but issues crop up now and again.</p>
-
-<ul>
 <li><span class="projname">Roles</span>. I implemented a simplified version
 of the ideas in <a href="http://www.seas.upenn.edu/~sweirich/papers/popl163af-weirich.pdf">Generative type abstraction and type-level computation</a> into GHC. This prevents
-the <pre>GeneralizedNewtypeDeriving</pre> bug. See also the <a href="http://ghc.haskell.org/trac/ghc/wiki/Roles">wiki page</a> on the subject. This work was completed while I was preforming an internship at Microsoft Research Cambridge, under the supervision of <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
+the <tt>GeneralizedNewtypeDeriving</tt> bug. See also the <a href="http://ghc.haskell.org/trac/ghc/wiki/Roles">wiki page</a> on the subject. This work was completed while I was preforming an internship at Microsoft Research Cambridge, under the supervision of <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
 Peyton Jones</a>.</li>
 <li><span class="projname">units</span>. This is a library, written using closed
 type families, that allows for type-level dimensional analysis, to aid programs
