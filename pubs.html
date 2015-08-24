@@ -15,13 +15,17 @@
 <div class="section">Drafts</div>
 
 <ul>
-    <li><p><em>An overabundance of equality: Implementing kind equalities into Haskell</em>. Richard A. Eisenberg. Draft. (<a href="papers/2015/equalities/equalities.pdf">pdf</a> <a href="papers/2015/equalities/equalities-extended.pdf">extended pdf</a>)</p></li>
+  <li><p><em>Visible Type Application</em>. Richard A. Eisenberg, Stephanie Weirich, and Hamidhasan Ahmed. Submitted to POPL 2016. (<a href="papers/2016/type-app/visible-type-app.pdf">pdf</a> <a href="papers/2016/type-app/visible-type-app-extended.pdf">extended pdf</a>)</p></li>
+  <li><p><em>Safe Zero-cost Coercions for Haskell</em>. Joachim Breitner, Richard A. Eisenberg, Simon Peyton Jones, and Stephanie Weirich. Submitted to a special issue of JFP for expanded versions of papers published at ICFP'14. (<a href="papers/2015/coercible-jfp/coercible-jfp.pdf">pdf</a>)</p></li>
 </ul>
 
 <div class="section">Peer-Reviewed Publications</div>
 
 <ul>
-<li><p><em>Promoting Functions to Type Families in Haskell</em>.
+  <li><p><em>Injective Type Families for Haskell</em>. Jan Stolarek, Simon Petyon Jones, and Richard A. Eisenberg. Haskell Symposium 2015, Vancouver, BC, Canada. (<a href="papers/2015/injective/injective-type-families.pdf">pdf</a>)</p>
+    <p><em>Injective Type Families for Haskell (extended version)</em>. Jan Stolarek, Simon Peyton Jones, and Richard A. Eisenberg. Politechnika Łódzka Technical Report, 2015. (<a href="papers/2015/injective/injective-type-families-extended.pdf">pdf</a>)</p></li>
+
+  <li><p><em>Promoting Functions to Type Families in Haskell</em>.
 Richard A. Eisenberg and Jan Stolarek. Haskell Symposium 2014, Gothenburg, Sweden.
 (<a href="papers/2014/promotion/promotion.pdf">pdf</a>
 <a href="papers/2014/promotion/promotion-ext.pdf">extended pdf</a>)</p>
@@ -85,6 +89,18 @@ Haskell Symposium, September 13, 2012, Copenhagen, Denmark. (<a href="papers/201
 </li>
 </ul>
 
+<div class="section">Research-related open-source contributions</div>
+<ul>
+  <li><a href="https://github.com/goldfirere/ghc/tree/nokinds">Kind equalities in GHC</a>, based on the ICFP'13 paper</li>
+  <li><a href="https://github.com/ghc/ghc/tree/wip/type-app">Visible type application in GHC</a>, based on the POPL'16 submission</li>
+  <li><a href="https://github.com/goldfirere/glambda">Glambda</a>, a lambda-calculus interpreter built with GADTs, useful as a case study</li>
+  <li><a href="https://github.com/ghc/ghc/commit/0cc47eb90805f3e166ac4d3991e66d3346ca05e7">A new <tt>Coercible</tt> solver</a>, already part of GHC</li>
+  <li><a href="https://github.com/goldfirere/units">The <tt>units</tt> package</a>, a domain-specific type system for dimensional analysis</li>
+  <li><a href="https://github.com/ghc/ghc/commit/e8aa8ccba0c40884765281b21ff8f4411802dd41">Roles</a>, as based on the ICFP'14 paper, already part of GHC</li>
+  <li>Closed type families, implemented in <a href="https://github.com/ghc/ghc/commit/8366792eede3c8eb486ff15d8c8e62e9363f1959">two</a> <a href="https://github.com/ghc/ghc/commit/569b26526403df4d88fe2a6d64c7dade09d003ad">major</a> commits, as based on the POPL'14 paper</li>
+  <li><a href="https://github.com/goldfirere/singletons/">The <tt>singletons</tt> library</a>, which allows for automatic derivation of declarations that support dependent types in released versions of GHC</li>
+  </ul>
+
 <div class="section">Other works</div>
 
 <ul>
@@ -92,6 +108,8 @@ Haskell Symposium, September 13, 2012, Copenhagen, Denmark. (<a href="papers/201
 language in GHC, as implemented.
 (<a href="https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true">pdf</a>)
 </li>
+  <li><p><em>An overabundance of equality: Implementing kind equalities into Haskell</em>. Richard A. Eisenberg. (<a href="papers/2015/equalities/equalities.pdf">pdf</a> <a href="papers/2015/equalities/equalities-extended.pdf">extended pdf</a>)</p></li>
+
 </ul>
 
 </div>
