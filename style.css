@@ -72,6 +72,10 @@ a:hover {
     font-size: large;
 }
 
+.subsection {
+    font-weight: bold;
+}
+
 p {
     margin: 10px auto;
     margin-left: 5px;
