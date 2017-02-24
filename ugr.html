@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Undergraduate Research Projects</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+
+<!-- the following tells search engines not to link here.
+     see https://yoast.com/prevent-site-being-indexed/ -->
+<meta name="robots" content="noindex,nofollow"/>
+
+</head>
+<body>
+<div id="wholepage">
+
+<!--#include file="navbar.html" -->
+
+<div class="section">Project ideas</div>
+
+<p><em>These ideas are meant for internal circulation only. Please do not post!</em></p>
+
+<p>Below are several ideas I have for upcoming research projects. Are you interested in
+  taking one of these on? Let's talk!</p>
+
+<p>(If you don't have all the prerequisites yet for an idea you're excited about, don't
+  fret. If we have enough time, we can cover the prerequisites on the way.)</p>
+
+<ul>
+  <li><p><span class="projname">Lightweight existentials</span>. Haskell supports
+    <em>existential types</em>, allowing users to pack compile-time type-level information
+    into a data structure. These are very useful when returning values in a richly
+    typed environment, where the type index of the returned value cannot be computed.
+    For example, if we wish to support refinement types (in the style of <a href="https://ucsd-progsys.github.io/liquidhaskell-blog/">LiquidHaskell</a>), we need to make refined return
+    types to be existential.</p>
+
+    <p>However, current support for existentials is clunky. Each existential requires a
+      separate datatype definition, and existential packing and unpacking require explicit
+      pattern matches. Existentials also require an extra box at runtime, because
+      <tt>newtype</tt>s cannot pack an existential variable. This is all very dissatisfying.
+      Instead, existentials should be lightweight, both at compile time and at runtime.
+      The question is, how?</p>
+
+    <p>This is a major research project, probably spanning multiple years and producing
+      hopefully a number of papers.</p>
+
+    <p><em>Prerequisites:</em> Type-level programming experience in Haskell, type
+      theory including existential types, an understanding of Haskell's OutsideIn type
+      inference algorithm (or other relevant type inference experience).</p></li>
+
+  <li><p><span class="projname">Introspective Template Haskell</span>. This project idea
+	  is well described in this <a href="https://ghc.haskell.org/trac/ghc/wiki/TemplateHaskell/Introspective">wiki page</a>. In summary, the idea is to redesign Haskell's metaprogramming
+	  facility to use GHC's internal structures, instead of the current design
+	  of using a separate set of language representation types. This work may
+	  lead to a paper publishable at <a href="https://www.haskell.org/haskell-symposium/">
+	    Haskell Symposium</a>.</p>
+
+    <p><em>Prerequisites:</em> A semester (or equivalent) of Haskell
+      programming, and a knowledge of abstract syntax trees. Experience with macro systems
+      is a plus.</p></li>
+    
+  <li><p><span class="projname">First-class patterns</span>. Haskell supports first-class
+      functions, allowing us to abstract arbitrarily over functions and writing functions
+      on functions. With its <a href="papers/2016/patsyns/pattern-synonyms.pdf">Pattern
+	Synonyms</a> feature, Haskell also supports user-defined pattern synonyms, allowing
+      some level of abstraction over patterns. But these pattern synonyms are not first-class:
+      they must be at top-level, and there is no way to find a variable to a pattern.
+      This significant reseach project would explore the utility and techniques to design
+      a programming language with first-class patterns, allowing arbitrary pattern abstraction.</p>
+
+    <p>I would expect that a full treatment of this topic would lead to a
+    strong ICFP submission.</p>
+
+    <p><em>Prerequisites:</em> A semester of programming in a typed functional language
+      and
+      knowledge of type theory.</p></li>
+
+  <li><p><span class="projname">A mechanized proof of Haskell's type safety</span>.
+      There are many papers on Haskell's type system. Yet, none of them prove
+      safety in a theorem prover. This project would be to write a mechanized proof
+      of the type safety of System FC. This is not for the light of heart, but it
+      would be great fun, using the <a href="https://coq.inria.fr/">best video game
+	ever created</a>, or, perhaps another <a href="https://isabelle.in.tum.de/">
+	proof assistant</a> if you already are experienced in it.</p>
+
+    <p>This work would surely lead to a journal-length article.</p>
+
+    <p><em>Prerequisites:</em> A knowledge of type theory, and experience in a
+      theorem prover. A knowledge of Haskell is <em>not</em> required.</p></li>
+      
+	  
+  <li><p><span class="projname">An analysis of GHC's solver</span>.
+      GHC uses an intricate algorithm in order to prove the typability (or lack
+      thereof) of Haskell programs. The last textual description of this solver
+      was in <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp-outsidein.pdf">2010</a>, and it is now sorely out-of-date. This work would be to analyze
+      the current solver, describe the algorithm, and prove that it is terminating.
+      It is quite likely <em>not</em> currently a terminating algorithm, so part of
+      the work would be repairing it.</p>
+
+    <p>This work, if done well, should lead to either an ICFP publication or perhaps
+      a Journal of Functional Programming article.</p>
+
+    <p><em>Prerequisites:</em> Strong Haskell programming skills, as well as experience
+      in algorithm analysis and termination proofs.</p></li>
+
+  <li><p><span class="projname">A theory of error messages</span>. Currently, type
+      errors are produced at the convenience of GHC. But we can do better, doing
+      analysis of how, exactly, the user must fix her program to eliminate the type
+      error. In addition, what information would be most useful to users when presenting
+      the type error? What can help beginners advance? (Some thoughts here are in
+      <a href="http://eric.seidel.io/pub/nanomaly-icfp16.pdf">this paper</a>.)</p>
+
+    <p>This work would include coming up with a theory of error messages, in order
+      to guide GHC's (and other compilers') implementations. A part of this work
+      would likely be implementing the idea, and possibly a user study. Some
+      inspiration comes from Idris, as explained <a href="https://www.youtube.com/watch?v=m7BBCcIDXSg">here</a>. Depending on our scope, this could lead to a Haskell Symposium publication
+      or perhaps something larger.</p>
+
+    <p><em>Prerequisites:</em> A semester of Haskell programming.</p></li>
+
+  <li><p><span class="projname">Eliminating <tt>TypeRep</tt></span>. Currently,
+      GHC has a type <tt>TypeRep</tt> which serves as a runtime type representation.
+      However, GHC has a perfectly good type that should do this already: <tt>Type</tt>
+      (a.k.a. <tt>*</tt>). The problem is that <tt>Type</tt> is at the type level
+      and <tt>TypeRep</tt> is at the term level.</p>
+
+    <p>This project would be to implement a treatment of <tt>Type</tt> at the term
+      level, supplanting <tt>TypeRep</tt>. It is unclear what the ramifications of
+      this idea are, and there the discoveries might lead.</p>
+
+    <p><em>Prerequisites:</em> Excellent Haskell programming skills, and a delight
+      in tinkering with type system esoterica.</p></li>
+
+  <li><p><span class="projname">Semantics for type families</span>. Haskell
+      supports <em>type families</em>, which are essentially functions on types.
+      But GHC gives no precise semantics for how these behave. This project would
+      be to design a semantics (preferably, lazy semantics that mirrors term-level
+      behavior) and implement these, demonstrating that the semantics can be
+      implemented efficiently.</p>
+
+    <p>This project is likely quite a bit subtler than it seems, possibly leading
+      to several publications.</p>
+
+    <p><em>Prerequisites:</em> Excellent Haskell programming skills, and experience
+      with type theory and operational semantics.</p></li>
+
+  <li><p><span class="projname">Type inference for generalized algebraic datatypes</span>.</p></li>
+
+  <li><p><span class="projname">Implication constraints</span>.</p></li>
+
+  <li><p><span class="projname">Visible type patterns</span>.</p></li>
+
+  <li><p><span class="projname">Open data kinds</span>.</p></li>
+
+  <li><p><span class="projname">Or-patterns</span>.</p></li>
+
+  <li><p><span class="projname">Rewriting <tt>deriving</tt> to use Template Haskell</span>.</p></li>
+
+  <li><p><span class="projname">Merging GHC's term-level and type-level parsers</span>.</p></li>
+
+  <li><p><span class="projname">Instance templates</span>.</p></li>
+
+  <li><p><span class="projname">Detect scoped type variables</span>.</p></li>
+</ul>
+
+</div>
+</body>
+</html>
+
+    
+      
+
+    
+    
