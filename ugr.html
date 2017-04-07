@@ -63,7 +63,7 @@
       on functions. With its <a href="papers/2016/patsyns/pattern-synonyms.pdf">Pattern
 	Synonyms</a> feature, Haskell also supports user-defined pattern synonyms, allowing
       some level of abstraction over patterns. But these pattern synonyms are not first-class:
-      they must be at top-level, and there is no way to find a variable to a pattern.
+      they must be at top-level, and there is no way to bind a variable to be a pattern.
       This significant reseach project would explore the utility and techniques to design
       a programming language with first-class patterns, allowing arbitrary pattern abstraction.</p>
 
@@ -119,13 +119,14 @@
 
   <li><p><span class="projname">Eliminating <tt>TypeRep</tt></span>. Currently,
       GHC has a type <tt>TypeRep</tt> which serves as a runtime type representation.
+      <tt>TypeRep</tt> is most recently described <a href="http://cs.brynmawr.edu/~rae/papers/2016/dynamic/dynamic.pdf">here</a>.
       However, GHC has a perfectly good type that should do this already: <tt>Type</tt>
       (a.k.a. <tt>*</tt>). The problem is that <tt>Type</tt> is at the type level
       and <tt>TypeRep</tt> is at the term level.</p>
 
     <p>This project would be to implement a treatment of <tt>Type</tt> at the term
       level, supplanting <tt>TypeRep</tt>. It is unclear what the ramifications of
-      this idea are, and there the discoveries might lead.</p>
+      this idea are, and where the discoveries might lead.</p>
 
     <p><em>Prerequisites:</em> Excellent Haskell programming skills, and a delight
       in tinkering with type system esoterica.</p></li>
@@ -143,23 +144,104 @@
     <p><em>Prerequisites:</em> Excellent Haskell programming skills, and experience
       with type theory and operational semantics.</p></li>
 
-  <li><p><span class="projname">Type inference for generalized algebraic datatypes</span>.</p></li>
+  <li><p><span class="projname">Type inference for generalized algebraic datatypes</span>.
+      The state-of-the-art in practical GADT type inference still appears to
+      be <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/jfp-outsidein.pdf">OutsideIn</a>.
+      This paper describes GHC's type inference algorithm, and it sets out a specification
+      for this algorithm. However, the implementation does not quite meet the specification (see Section 6.3
+      of that paper). The goal of this project would be to come up with a way to phrase GADT
+      type inference that leads to an implementable specification.</p>
 
-  <li><p><span class="projname">Implication constraints</span>.</p></li>
+    <p>A proper job here would lead to a very strong publication, probably for POPL.</p>
 
-  <li><p><span class="projname">Visible type patterns</span>.</p></li>
+    <p><em>Prerequisites:</em> Comfort programming with GADTs (preferably in Haskell,
+      but Agda / Idris would work, too); strong grasp of type inference specifications
+      in the style of Damas-Milner/Cle&#769;ment et al. as explored <a href="http://cs.brynmawr.edu/~rae/papers/2016/type-app/visible-type-app.pdf">here</a>.</p>
+  </li>
 
-  <li><p><span class="projname">Open data kinds</span>.</p></li>
+  <li><p><span class="projname">Implication constraints</span>. Haskell allows you to write constraints on types,
+      such as in <tt>Eq a => a -> [a] -> Bool</tt>. But it does not allow these constraints to involve
+      <em>implications</em>. For example, we might want to say <tt>forall a. (forall b. C a b => D b) => a -> a</tt>,
+      which would be valid for any <tt>a</tt> such that a <tt>C a b</tt> instance implies the existence
+      of a <tt>D b</tt> instance. This feature has been wanted for some time, originally
+      <a href="https://ghc.haskell.org/trac/ghc/ticket/2256">posted</a> in 2008. This idea has gained
+      new currency recently, as implication contraints would allow GHC to put <tt>join</tt> in the
+      <tt>Monad</tt> type class. This project would
+      be to specify and implement this extension, quite likely leading to an ICFP submission.</p>
 
-  <li><p><span class="projname">Or-patterns</span>.</p></li>
+    <p><em>Prerequisites:</em> Strong Haskell programming skills, and an enjoyment of type-level
+      conundrums.</p>
+  </li>
 
-  <li><p><span class="projname">Rewriting <tt>deriving</tt> to use Template Haskell</span>.</p></li>
+  <li><p><span class="projname">Visible type patterns</span>. Some <a href="http://cs.brynmawr.edu/~rae/papers/2016/type-app/visible-type-app.pdf">
+	recent work</a> has introduced
+      type applications to Haskell. These type applications can be used only in expressions, never in patterns. Users are thus
+      asking to extend the new feature to patterns, as tracked in <a href="https://ghc.haskell.org/trac/ghc/ticket/11350">this ticket</a>.
+      (Do also see <a href="https://ghc.haskell.org/trac/ghc/ticket/11638#comment:1">this comment</a>, which discusses some of the challenges.)
+      This project would be to specify and implement the new feature, hopefully leading to a Haskell Symposium publication.</p>
 
-  <li><p><span class="projname">Merging GHC's term-level and type-level parsers</span>.</p></li>
+      <p><em>Prerequisites:</em> Experience with type-level and GADT programming in Haskell, and strong Haskell programming skills.</p> </li>
 
-  <li><p><span class="projname">Instance templates</span>.</p></li>
+  <li><p><span class="projname">Open data kinds</span>. It is sometimes necessary to define
+      new datatypes not to store data, but to use as symbols in type-level computation.
+      However, all datatype declarations must have a kind that ends in <tt>Type</tt>. This
+      project is to design and implement a way of adding new open kinds to GHC. This
+      feature request is tracked on <a href="https://ghc.haskell.org/trac/ghc/ticket/11080">this ticket</a>.
+    </p>
 
-  <li><p><span class="projname">Detect scoped type variables</span>.</p></li>
+    <p>Done well, this work could lead to a Haskell Symposium submission.</p>
+
+    <p><em>Prerequisites:</em> Experience with type-level programming in Haskell, and strong Haskell programming skills.</p>
+  </li>
+
+  <li><p><span class="projname">Rewriting <tt>deriving</tt> to use Template Haskell</span>.
+      GHC's current <tt>deriving</tt> mechanism allows the compiler to write class instances on behalf of users. However,
+      there is no way for users to extend this useful feature; instead, the way <tt>deriving</tt> works is baked into
+      the compiler itself. This project would be to design and implement a user-extensible <tt>deriving</tt> mechanism
+      via Template Haskell.</p>
+
+    <p><em>Prequisites:</em> Strong Haskell programming skills.</p>
+  </li>
+
+  <li><p><span class="projname">Merging GHC's term-level and type-level parsers</span>. Part of the work
+      to add dependent types to Haskell is to take GHC's current term-level and type-level parsers and merge
+      them together, into one parser to rule them all. This work would be a concrete step toward building
+      dependent types in a practical language.</p>
+
+    <p><em>Prerequisites:</em> A solid knowledge of the Haskell programming language, and experience working
+  with declarative parsers.</p></li>
+
+  <li><p><span class="projname">Instance templates</span>. It is often the case that instances of several
+      classes belong together. For example, you would never have an <tt>Ord</tt> instance for a class without
+      an <tt>Eq</tt> instance. Even worse, it's possible to write the <tt>Eq</tt> instance directly from information
+      in the <tt>Ord</tt> instance. Thus, writing the <tt>Eq</tt> instance is redundant. This project is to finish
+      the design and implementation of <a href="https://ghc.haskell.org/trac/ghc/wiki/InstanceTemplates">instance templates</a>,
+      a feature that would allow users to omit the <tt>Eq</tt> instance. A well-articulated discussion behind the design and
+      implementation of this feature could make for an interesting Haskell Symposium submission.</p>
+
+  <p><em>Prerequisites:</em> Strong Haskell programming skills.</p></li>
+
+  <li><p><span class="projname">Detect scoped type variables</span>. Most GHC language extensions can be
+      suggested easily by the compiler. Write a type family without <tt>TypeFamilies</tt> turned on? You get
+      a nice reminder to do so. A notable exception to this is <tt>ScopedTypeVariables</tt>, which is never suggested.
+      This project would be to come up with a specification for when to suggest this extension and then to implement
+      the specification. This may be harder than it looks; if so, expect a Haskell Symposium paper to come out of this
+      work.</p>
+
+  <p><em>Prerequisites:</em> Strong Haskell programming skills, including work with fancy types in Haskell.</p></li>
+
+  <li><p><span class="projname">Other GHC development</span>. There's always lots of work to be done improving GHC.
+      For example, <a href="https://github.com/ghc-proposals/ghc-proposals">this repo</a> and its pull requests track
+      new features proposed for GHC. You could implement one! Or there are many bugs out there that need to be
+      squashed; you might find <a href="https://ghc.haskell.org/trac/ghc/wiki/Newcomers">this page</a> helpful.</p>
+
+    <p>Do not consider this to be "just programming". Two minor GHC improvements that I started working on, thinking
+      that the challenge was just some programming, lead to <a href="http://cs.brynmawr.edu/~rae/papers/2014/axioms/axioms.pdf">two</a>
+      <a href="http://cs.brynmawr.edu/~rae/papers/2016/type-app/visible-type-app.pdf">papers</a> published in top venues. You
+      never know where a problem will lead.</p>
+
+    <p><em>Prerequisites:</em> A strong knowledge of the Haskell language, along with strong Haskell programming skills.</p>
+  </li>
 </ul>
 
 </div>
