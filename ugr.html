@@ -286,7 +286,25 @@ post!</em></p>
       this work.</p>
 
   <p><em>Prerequisites:</em> Strong Haskell programming skills, including work
-  with fancy types in Haskell.</p></li>
+    with fancy types in Haskell.</p></li>
+
+  <li><p><span class="projname">Unsaturated type families</span>. Every use of
+      a type family in Haskell must be fully saturated -- that is, applied to
+      all of its declared arguments. This is in contrast to term-level functions,
+      which are curried. There is a good reason for the restriction: any other
+      approach would cripple type inference. But my <a href="papers/2016/thesis/eisenberg-thesis.pdf">thesis</a> provides a tantalizing way forward. See Section 4.2.4. This project
+      would be to flesh out the ideas there, design a concrete language change,
+      and implement the change.</p>
+
+    <p>This would likely make a great Haskell Symposium submission. For a student
+      with a knowledge of type inference, this could go quite a bit further and
+      become an ICFP or POPL submission. I know of no results around type inference
+      in the presence of unsaturated type-level functions, so this would be new
+      territory for programming language theory.</p>
+				      
+    <p><em>Prerequisites:</em> Strong Haskell programming skills, including a
+      knowledge of type families.</p></li>
+      
 
   <li><p><span class="projname">Other GHC development</span>. There's always
       lots of work to be done improving GHC. For
