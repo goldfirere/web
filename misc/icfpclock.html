@@ -1,0 +1,162 @@
+<!-- This tool was written by Mark Jones's evil twin. -->
+
+<html>
+<head>
+<title>HIW Talk Clock</title>
+</head>
+
+<style>
+ .clickable       { cursor: pointer; }
+ .clickable:hover { background-color: #FFF6C0; }
+</style>
+
+<body text="#643200">
+<!--
+This is a simple clock or timer application that was written for use
+at ICFP.  In principle, it should work with any web browser that can
+handle embedded JavaScript.
+
+The clock is intended to be run on a laptop or tablet that is easy
+for the speaker (and, ideally, the session chair) to see during each
+talk.  Be sure to disable power saving features and plug the display
+device in to an outlet on the wall to ensure that the clock remains
+visible throughout the talk.
+
+The clock goes through several phases:
+
+- During the initial part of each talk, the clock just displays the
+approximate number of remaining minutes, starting at 18, which is the
+total length of time that is allocated for every "regular" research
+talk.
+
+- Five and a half minutes before the end of the talk time, the color
+will change to magenta and the clock will start displaying the
+remaining seconds in addition to the minutes.
+
+- At the end of the talk time, the clock will change to blue and will
+continue counting down through "negative times".  The "Talk" label
+will change to "Q&A", indicating that we are now in the Question and
+Answer portion of the talk.
+
+- After the allocated Q&A time (4 mins, 30 seconds), the clock will
+change to red, continue counting down, and show a "STOP" label.  If
+the talk and Q&A is not already completed by this point, then we have
+fallen behind schedule.  In other words, our goal, as best we can, is
+to avoid reaching this phase of the clock!
+
+If you want to use the clock for practice, you might find it useful to
+know that you can restart it by clicking on the countdown time at the
+top of the screen (or on the "REGULAR" label at the bottom).
+
+-->
+
+<table style="font-family: Courier, monospace; height:100%;width:100%; position: absolute; top: 0; bottom: 0; left: 0; right: 0;border:1px solid;" >
+<tr>
+  <td colspan=3 align="center" class="clickable" onClick="resetClock()" style="border-bottom: 1px solid #000;">
+    <span id="elapsed" style="font-size: 320px;">0:00</span>
+  </td>
+</tr>
+<tr style="border-top: 1px solid #000;">
+  <td align="left" class="clickable" onClick="lightning()">LIGHTNING</td>
+  <td align="center" style="width:280px;">
+    <span id="current" style="font-size: 32px;">--:--:-- --</span>
+  </td>
+  <td align="right" class="clickable" onClick="regular()">REGULAR</td>
+</tr>
+</table>
+
+<script language="javascript">
+
+var startTime = "-";
+var talkLen   = 20;              // total length of talk
+var warnTime  = 15;              // minutes before seconds are displayed
+var qaTime    = 5;               // minutes of Q&A time
+
+function lightning() {
+    talkLen   = 8;
+    warnTime  = 7;
+    qaTime    = 2;
+    resetClock();
+}
+
+function regular() {
+    talkLen   = 20;
+    warnTime  = 15;
+    qaTime    = 5;
+    resetClock();
+}
+
+function pad(n) {
+  return n < 10 ? ("0" + n) : n;
+}
+
+function formatTime(hrs,mins, secs) {
+  return pad(hrs) + ":" + pad(mins) + ":" + pad(secs);
+}
+
+function clockToString(time) {
+  var hrs    = time.getHours();
+  var mins   = time.getMinutes();
+  var secs   = time.getSeconds();
+  var suffix = "AM";
+  if (hrs > 11) {
+    suffix = "PM";
+    hrs    = hrs - 12;
+  }
+  if (hrs == 0) {
+    hrs = 12;
+  }
+  return formatTime(hrs, mins, secs) + " " + suffix;
+}
+
+function resetClock() {
+  startTime = new Date();
+}
+
+function js_clock(){
+  var curr = new Date();
+  document.getElementById('current').innerHTML = clockToString(curr);
+
+  var mins = curr.getMinutes() - startTime.getMinutes();
+  var secs = curr.getSeconds() - startTime.getSeconds();
+  if (mins<0) {
+      mins += 60;
+  }
+  if (secs<0) {
+    secs += 60;
+    mins -= 1;
+  }
+
+  if (mins>talkLen || (mins==talkLen && secs>0)) {
+      qmins = mins-talkLen;
+      if (qmins>qaTime || (qmins==qaTime && secs>0)) {
+          text  = '<font color="red">-' + qmins + ":" + pad(secs)
+                + '<br/><span style="font-size: 180px;">STOP</span></font>';
+      } else {
+          text  = '<font color="blue">-' + qmins + ":" + pad(secs)
+                + '<br/><span style="font-size: 180px;">Q&A</span></font>';
+      }
+  } else if (mins<warnTime) {
+      text = (talkLen - mins) + '<font size="120"> mins</font>'
+           + '<br/><span style="font-size: 180px;">Talk</span>';
+  } else {
+      rmins = talkLen - mins;
+      rsecs = 60 - secs;
+      while (rsecs>=60) {
+          rsecs -= 60;
+      }
+      if (rsecs>0) {
+          rmins = rmins - 1;
+      }
+      text = '<font color="magenta">' + rmins + ":" + pad(rsecs)
+           + '<br/><span style="font-size: 180px;">Talk</span></font>';
+  }
+  document.getElementById('elapsed').innerHTML = text;
+  setTimeout("js_clock()", 1000);
+}
+resetClock();
+js_clock();
+</script>
+
+</body>
+</html>
