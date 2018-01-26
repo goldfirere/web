@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Undergraduate Research Projects</title> <link rel="stylesheet"
 type="text/css" href="style.css" /> <meta http-equiv="Content-Type"
@@ -87,20 +87,19 @@ post!</em></p>
       language and knowledge of type theory.</p></li>
 
   <li><p><span class="projname">A mechanized proof of Haskell's type
-      safety</span>. There are many papers on Haskell's type system. Yet, none
-      of them prove safety in a theorem prover. This project would be to write
-      a mechanized proof of the type safety of System FC. This is not for the
-      light of heart, but it would be great fun, using
-      the <a href="https://coq.inria.fr/">best video game ever created</a>,
-      or, perhaps another <a href="https://isabelle.in.tum.de/"> proof
-      assistant</a> if you already are experienced in it.</p>
+      safety</span>. There are many papers on Haskell's type system. Yet, only
+      one of them attempts to prove safety in a theorem prover. That <a href="https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1076&context=compsci_pubs">paper</a> uses a very
+      boiled-down version of Haskell, not even supporting datatypes.
+      This project would be to complete
+      the mechanized proof of the type safety of System FC/<a href="https://repository.brynmawr.edu/cgi/viewcontent.cgi?article=1074&context=compsci_pubs">Pico</a>. This is not for the
+      faint of heart, but it would be great fun, using
+      the <a href="https://coq.inria.fr/">best video game ever created</a>.
 
     <p>This work would surely lead to a journal-length article.</p>
 
     <p><em>Prerequisites:</em> A knowledge of type theory, and experience in a
       theorem prover. A knowledge of Haskell is <em>not</em>
       required.</p></li>
-      
 	  
   <li><p><span class="projname">An analysis of GHC's solver</span>. GHC uses
       an intricate algorithm in order to prove the typability (or lack
@@ -335,6 +334,9 @@ post!</em></p>
 	<li><a href="https://ghc.haskell.org/trac/ghc/ticket/8177">#8177</a>: Roles for type families</li>
 	<li>Untie the knot using <tt>TcTyCon</tt>. (Could relate to a new paper on kind inference for datatypes.)</li>
 	<li><a href="https://ghc.haskell.org/trac/ghc/ticket/11307">#11307</a> might be a good warmup. It's a straightforward AST refactoring.</li>
+	<li><a href="https://github.com/goldfirere/singletons/issues/113">singletons#113</a> involves some
+	  performance exploration in a library I maintain. This would be a good warmup project in learning
+	  about Haskell and dependent types.</li>
       </ul>
     </p>
 
