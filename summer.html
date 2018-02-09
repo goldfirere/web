@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Summer Research Projects</title> <link rel="stylesheet"
+type="text/css" href="style.css" /> <meta http-equiv="Content-Type"
+content="text/html;charset=utf-8" />
+
+<!-- the following tells search engines not to link here. see
+     https://yoast.com/prevent-site-being-indexed/ --> <meta name="robots"
+     content="noindex,nofollow"/>
+
+</head>
+<body>
+<div id="wholepage">
+
+<!--#include file="navbar.html" -->
+
+<div class="section">Summer Research Project Ideas</div>
+
+<p><em>These ideas are meant for internal circulation only. Please do not
+    post!</em></p>
+
+<p>Below are several ideas I have for summer research projects. These are
+  all implementation-oriented, as I think a hands-on project works best for
+  the summer format. Does one
+  interest you? Let's talk!</p>
+
+<ul>
+  <li><p><span class="projname">Merging GHC's term-level and type-level
+      parsers</span>. Part of the work to add dependent types to Haskell is to
+      take GHC's current term-level and type-level parsers and merge them
+      together, into one parser to rule them all. This work would be a
+      concrete step toward building dependent types in a practical
+      language and would give you a great deal of experience working in
+      a real-world programming language compiler.</p></li>
+
+  <li><p><span class="projname">Improving GHC's error messages</span>. Currently,
+      type errors are produced at the convenience of GHC. These messages are static
+      and very old-fashioned: there are no colors, no interactivity, and no good way
+      for them to interact with an IDE. In addition, they are sometimes awfully hard
+      to understand.</p>
+
+    <p>This project would be to rewrite GHC's
+      error-message-handling mechanism, with two goals:
+      <ol><li>Make error messages <em>structured</em>, allowing for interactivity
+	  (e.g., hiding parts of the message), fancy formatting, and IDE integration</li>
+	<li>Improve the subjective quality of error messages, making use of the fancy
+	  features you established in goal (1).</li></ol>
+      There is a good deal of interest in getting this done in the Haskell community;
+      successful work here would gain you a lot of love.</p>
+
+    <p>Some background material:</p>
+      <ul><li>A <a href="https://www.youtube.com/watch?v=m7BBCcIDXSg">talk</a>
+	  on how <a href="https://www.idris-lang.org/">Idris</a> structures
+	  error messages, which I'd like to emulate.</li>
+	<li>A <a href="https://www.youtube.com/watch?v=rdVqQUOvxSU">talk</a> on 
+	  <em>type provenance</em> a technique which might make error messages
+	  more understandable.</li>
+	<li>Though much more theoretical, <a href="https://popl18.sigplan.org/event/obt-2018-explaining-type-errors">
+	    this abstract</a> describes a potential way to re-imagine type errors
+	  to make them more systematic.</li></ul>
+  </li>
+
+<li><p><span class="projname">Visible type patterns</span>.
+	Some <a href="http://cs.brynmawr.edu/~rae/papers/2016/type-app/visible-type-app.pdf">
+	recent work</a> has introduced type applications to Haskell. These
+	type applications can be used only in expressions, never in patterns.
+	Users are thus asking to extend the new feature to patterns, as
+	tracked
+	in <a href="https://ghc.haskell.org/trac/ghc/ticket/11350">this
+	ticket</a> and <a href="https://github.com/ghc-proposals/ghc-proposals/pull/96">this
+	proposal</a>. (Do also
+	see <a href="https://ghc.haskell.org/trac/ghc/ticket/11638#comment:1">this
+	comment</a>, which discusses some of the challenges.) This project
+	would be to specify and implement the new feature, hopefully leading
+	to a Haskell Symposium publication.</p>
+
+  <li><p><span class="projname">Mechanized proofs of Haskell libraries</span>.
+      An <a href="https://deepspec.org/main">effort is underway</a> to formally
+      prove the correctness of various aspects of the functional programming
+      ecosystem. A <a href="https://arxiv.org/abs/1711.09286">recent paper</a>
+      presents a tool for translating Haskell code to Coq code. <a href="https://coq.inria.fr/">Coq</a>
+      is a <em>proof assistant</em> that allows you to write a mathematically
+      valid proof in computer code; your proof is checked by the Coq compiler.</p>
+
+    <p>The summer work would be to take certain Haskell libraries, run them through
+      the hs-to-coq translator, and then write the proofs of correctness. This would
+      be a great first experience in verified programming, and I'm confident you
+      would find bugs in real, published libraries that could then be corrected.</p></li>
+
+  <li><p><span class="projname">Improving GHC's pattern-match warnings</span>.
+      GHC currently helpfully reports when a pattern is redundant, unreachable, or
+      incomplete.
+      This warning is essential for writing error-free code. (Some languages make it
+      an error to write an incomplete pattern-match.) However, the check has
+      <a href="https://ghc.haskell.org/trac/ghc/query?status=!closed&keywords=~PatternMatchWarnings">many
+      deficiencies</a>. This project would be to work through this area of GHC
+      and try to make this check better. This could be a great first
+      experience in open-source development and would be a real contribution
+      to the GHC community. Required background
+      reading: <a href="https://lirias.kuleuven.be/bitstream/123456789/512439/1/icfp2015.pdf">the
+      paper</a> that describes the pattern-match checker.</p></li>
+  
+</ul>
+
+</div>
+</body>
+</html>
+
+    
+      
+
+    
+    

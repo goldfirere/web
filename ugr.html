@@ -130,7 +130,9 @@ post!</em></p>
       order to guide GHC's (and other compilers') implementations. A part of
       this work would likely be implementing the idea, and possibly a user
       study. Some inspiration comes from Idris, as
-      explained <a href="https://www.youtube.com/watch?v=m7BBCcIDXSg">here</a>.
+      explained <a href="https://www.youtube.com/watch?v=m7BBCcIDXSg">here</a>,
+      and <a href="https://popl18.sigplan.org/event/obt-2018-explaining-type-errors">
+	this abstract</a> describes a potential starting point for this theory.
       Depending on our scope, this could lead to a Haskell Symposium
       publication or perhaps something larger.</p>
 
@@ -194,7 +196,8 @@ post!</em></p>
 	Users are thus asking to extend the new feature to patterns, as
 	tracked
 	in <a href="https://ghc.haskell.org/trac/ghc/ticket/11350">this
-	ticket</a>. (Do also
+	ticket</a> and <a href="https://github.com/ghc-proposals/ghc-proposals/pull/96">this
+	proposal</a>. (Do also
 	see <a href="https://ghc.haskell.org/trac/ghc/ticket/11638#comment:1">this
 	comment</a>, which discusses some of the challenges.) This project
 	would be to specify and implement the new feature, hopefully leading
@@ -285,33 +288,6 @@ post!</em></p>
     <p><em>Prerequisites:</em> Strong Haskell programming skills, including a
       knowledge of type families.</p></li>
 
-
-    <li><p><span class="projname">Implication constraints</span>. Haskell allows
-      you to write constraints on types, such as in <tt>Eq a => a -> [a] ->
-      Bool</tt>. But it does not allow these constraints to involve
-      <em>implications</em>. For example, we might want to say <tt>forall a.
-      (forall b. C a b => D b) => a -> a</tt>, which would be valid for
-      any <tt>a</tt> such that a <tt>C a b</tt> instance implies the existence
-      of a <tt>D b</tt> instance. This feature has been wanted for some time,
-      originally
-      <a href="https://ghc.haskell.org/trac/ghc/ticket/2256">posted</a> in
-      2008. This idea has gained new currency recently, as implication
-      contraints would allow GHC to put <tt>join</tt> in the
-      <tt>Monad</tt> type class. This project would be to specify and
-      implement this extension, quite likely leading to an ICFP
-      submission.</p>
-
-    <p><em>Prerequisites:</em> Strong Haskell programming skills, and an
-      enjoyment of type-level conundrums.</p>
-
-    <p>Much of the work seems to have been
-    done: <a href="https://people.cs.kuleuven.be/~tom.schrijvers/Research/papers/haskell2017b.pdf">Quantified
-    Class Constraints</a>. Gert-Jan Botty, Georgios Karachalias, Tom
-      Schrijvers, Bruno Oliveira and Philip Wadler. Haskell Symposium, 2017. However,
-      there is still yet more work in making this implementable by removing the
-    need for backtracking.</p>
-  </li>
-  
 
   <li><p><span class="projname">Other GHC development</span>. There's always
       lots of work to be done improving GHC. For
