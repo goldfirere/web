@@ -25,10 +25,13 @@ and has the <tt>(*:*)</tt> axiom. The
 was published at ICFP 2013. I have implemented these ideas into
 GHC 8.0. (<a href="papers/2015/equalities/equalities.pdf">Here</a> is an unpublished paper
 about the implementation.) Ongoing work includes adding proper Pi-types, as described in
-my <a href="papers/2016/thesis/eisenberg-thesis.pdf">dissertation</a>.</li>
+my <a href="papers/2016/thesis/eisenberg-thesis.pdf">dissertation</a>.
+Further theoretical work appears in two recent papers: one <a href="papers/2017/dep-haskell-spec/dep-haskell-spec.pdf">describes the specification for dependent types in Haskell (ICFP '17)</a> and the
+other <a href="papers/2019/dep-roles/dep-roles.pdf">combines roles with dependent types (ICFP '19)</a>. A key step, <a href="papers/2018/coercion-quantification/coercion-quantification.pdf">coercion quantification</a>, was completed in 2018 by <a href="https://xnning.github.io/">Ningning Xie</a> through the <a href="https://summerofcode.withgoogle.com/">Google Summer of Code</a>.
+</li>
+
 <li><span class="projname">GHC Maintenance</span>. As one of the core developers
-  of GHC, I often perform routine maintenance. I am also currently the Template
-  Haskell czar, overseeing the continued growth of that component of GHC. I have
+  of GHC, I often perform routine maintenance. I have
   implemented or have had a large hand in implementing the following GHC features:
   <ul>
     <li>Levity polymorphism</li>
@@ -42,7 +45,7 @@ my <a href="papers/2016/thesis/eisenberg-thesis.pdf">dissertation</a>.</li>
 </ul>
 
 <p>Below are my less active projects. Most weeks do not involve any work on these,
-but issues crop up now and again.</p>
+but issues crop up now and again. Due credit must be given to <a href="https://ryanglscott.github.io/">Ryan Scott</a> for being a major maintainer of several of these projects.</p>
 
 <ul>
 <li><span class="projname">singletons</span>. This project supports the
@@ -52,14 +55,11 @@ newest version of <tt>singletons</tt> supports the promotion of a wide array of 
 functions to type families. See <a href="papers/2014/promotion/promotion.pdf">the
 paper</a>, published at Haskell Symposium, 2014. The original
 <a href="papers/2012/singletons/paper.pdf">paper</a> resulting from this work was published
-at the Haskell Symposium, 2012. With Jan Stolarek.</li>
-<li><span class="projname">glambda</span>. <a href="https://github.com/goldfirere/glambda">Glambda</a> is a lambda-calculus interpreter,
-  written using GADTs extensively. It is meant as a larger case study of how
-  GADTs can be used to make real, running code safer to run and easier to write.</li>
+at the Haskell Symposium, 2012.</li>
 <li><span class="projname">Roles</span>. I implemented <em>roles</em>,
-  as described in our <a href="papers/2014/coercible/coercible.pdf">ICFP'14 paper</a> and our draft JFP <a href="papers/2015/coercible-jfp/coercible-jfp.pdf">submission</a>, into GHC.
+  as described in our <a href="papers/2014/coercible/coercible.pdf">ICFP'14 paper</a> and our <a href="papers/2016/coercible-jfp/coercible-jfp.pdf">JFP version</a>, into GHC.
 This prevents
-the <tt>GeneralizedNewtypeDeriving</tt> bug, as described <a href="https://ghc.haskell.org/trac/ghc/ticket/1496">here</a>. See also the <a href="http://ghc.haskell.org/trac/ghc/wiki/Roles">wiki page</a> on the subject. This work was completed while I was preforming an internship at Microsoft Research Cambridge, under the supervision of <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
+the <tt>GeneralizedNewtypeDeriving</tt> bug, as described <a href="https://gitlab.haskell.org/ghc/ghc/issues/1496">here</a>. See also the <a href="http://ghc.haskell.org/trac/ghc/wiki/Roles">wiki page</a> on the subject. This work was completed while I was preforming an internship at Microsoft Research Cambridge, under the supervision of <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
 Peyton Jones</a>.</li>
 <li><span class="projname">units</span>. This is a library, written using closed
 type families, that allows for type-level dimensional analysis, to aid programs
@@ -68,19 +68,8 @@ type families, that allows for type-level dimensional analysis, to aid programs
   published at Haskell Symposium 2014.
   The project page is <a href="https://github.com/goldfirere/units">here</a>.
   With Takayuki Muranushi.</li>
-<li><span class="projname">Closed type families in
-Haskell</span>. What changes are necessary to the surface language and in GHC
-to allow closed type families with ordered, overlapping equations? See
-  the <a href="papers/2014/axioms/axioms.pdf">paper</a> (published at POPL'14)
-  and <a href="http://hackage.haskell.org/trac/ghc/wiki/NewAxioms">GHC wiki
-page</a> for more info. This feature is part of GHC 7.8 and above.
-With <a href="http://research.microsoft.com/en-us/people/dimitris/">Dimitrios
-Vytiniotis</a>,
-<a href="http://research.microsoft.com/en-us/people/simonpj/">Simon
-Peyton Jones</a>, and <a href="http://www.cis.upenn.edu/~sweirich/">Stephanie
-Weirich</a>.</li>
 <li><span class="projname">System FC in GHC</span>. I maintain a formal specification
-of the internal language within GHC <a href="https://github.com/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf?raw=true">here</a>.</li>
+of the internal language within GHC <a href="https://gitlab.haskell.org/ghc/ghc/blob/master/docs/core-spec/core-spec.pdf">here</a>.</li>
 </ul>
 
 </div>
