@@ -122,3 +122,7 @@ dt {
 li {
     margin-bottom: 5px;
 }
+
+.selflink {
+    text-decoration: none currentcolor solid;
+}
