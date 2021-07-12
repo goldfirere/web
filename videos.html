@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Richard A. Eisenberg -- Videos</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+<div id="wholepage">
+
+<!--#include file="navbar.html" -->
+
+<div class="section">Weekly Video Series</div>
+
+<p>Every week (often on Tuesdays), I post a new video to Tweag's <a href="https://youtube.com/c/tweag">YouTube page</a>.
+  This page is a table of contents to these videos, updated regularly. The videos are linked in reverse
+chronological order.</p>
+
+<ul>
+  <li>Jul 7, 2021: I write an <a href="https://www.youtube.com/watch?v=iGSKqcebhfs">arity-inferred version of <code>zipWith</code></a>,
+    with <em>lots</em> of type-level hackery on the way.</li>
+  <li>Jun 29, 2021: A more newcomer-oriented video, <a href="https://www.youtube.com/watch?v=5ZasTIMntFw">I walk through some basic type
+      error messages</a>, explaining what they mean.</li>
+  <li>Jun 22, 2021: An introduction to <a href="https://www.youtube.com/watch?v=7nv2SpZ-9Pg"><code>Coercible</code></a>, a feature
+    that makes it possible to optimize code that works with <code>newtype</code>s.</li>
+  <li>Jun 15, 2021: GHC sometimes <a href="https://www.youtube.com/watch?v=F7GqVAD4qZI">infers the wrong type</a>.</li>
+  <li>Jun 8, 2021: An introduction to <a href="https://www.youtube.com/watch?v=UZaQuSIrO6s">the <code>DerivingVia</code> extension</a>,
+    which can allow you to avoid writing boiler-plate class instances.</li>
+  <li>Jun 1, 2021: An introduction to <a href="https://www.youtube.com/watch?v=3NgsnB71JTk">type-checker plugins</a>, which can
+    allow you to extend GHC's type checker to cover cases never conceived by us designers of GHC.</li>
+  <li>May 25, 2021: I <a href="https://www.youtube.com/watch?v=h3D1_TS02EQ">debug a performance problem live in GHC, on camera</a>. You can
+  watch how I organize such a session and tackle the problems that come up.</li>
+  <li>Apr 13, 2021 - May 18, 2021: A series of videos on type-level programming in Haskell, demonstrating GADTs, type families, and other fun features.
+    The videos can be watched independently, but for best results (for programmers less experienced in type-level programming), watch in order.
+    <ol>
+      <li>Apr 13, 2021: <a href="https://www.youtube.com/watch?v=PHS3Q-tRjFQ">Generalized algebraic datatypes (GADTs) and length-indexed vectors</a></li>
+      <li>Apr 20, 2021: <a href="https://www.youtube.com/watch?v=WHeBxSBY0fc">Singletons and <code>replicate</code></a></li>
+      <li>Apr 27, 2021: <a href="https://www.youtube.com/watch?v=dK5be4cdQdE">Type families</a></li>
+      <li>May 4, 2021: <a href="https://www.youtube.com/watch?v=8AKtqFY1ueM">Existentials</a></li>
+      <li>May 11, 2021: <a href="https://www.youtube.com/watch?v=jPZciAJ0oaw">Proofs</a></li>
+      <li>May 18, 2021: <a href="https://www.youtube.com/watch?v=S5Oz_w9HDs0">Writing custom GADTs to capture arbitrary invariants</a></li>
+    </ol>
+    </li>
+  
+  <li>Apr 6, 2021: A small <a href="https://www.youtube.com/watch?v=ijicXvkipFI">introduction to <code>ScopedTypeVariables</code></a> and
+    its quirks.</li>
+  
+  <li>Mar 30, 2021: The <a href="https://www.youtube.com/watch?v=A-qGGag3Mt8">IO monad</a> is really just a state monad, passing
+    around the entire <code>RealWorld</code> as its state.</li>
+  
+  <li>Mar 23, 2021: The dreaded <a href="https://www.youtube.com/watch?v=zpBua3Mql18">monomorphism restriction</a> can actually
+    improve performance.</li>
+  
+  <li>Mar 15, 2021: GHC does not support infinite types. Yet the mere possibility of these
+    <a href="https://www.youtube.com/watch?v=lk-0B3HF6FY">prevent closed type families from reducing</a>.</li>
+  
+<li>Mar 8, 2021: <a href="https://www.youtube.com/watch?v=xOGsS9rApD8">Newtypes are not strict datatypes</a>, debunking a myth I believed until recently.</li>
+
+
+<li>Mar 1, 2021: <a href="https://www.youtube.com/watch?v=53DnugEwLb0">The GHCi command <code>:type +d</code></a> allows you to default a type – very useful in instructional settings.</li>
+
+
+
+<li>Feb 22, 2021: <a href="https://www.youtube.com/watch?v=ZNAqtKtkMPU">Using closed type families to simulate closed classes</a>. This video explores a folklore trick to using a closed type family to avoid overlapping instances.</li>
+
+    
+<li>Feb 15, 2021: <a href="https://www.youtube.com/watch?v=5LGy4d5Fcgc">Why <code>let</code>-generalization is confusing</a>, especially because GHC sometimes chooses not to do it.</li>
+
+    
+<li>Feb 8, 2021: <a href="https://www.youtube.com/watch?v=eYJGeUqOCm4">How to optimize Haskell</a>, exploring a <a href="https://www.tweag.io/blog/2021-01-29-ghc-perf-internship/">previous blog post of mine</a>.</li>
+
+    
+<li>Jan 25, 2021: <a href="https://www.youtube.com/watch?v=zglkdlK2zR8">Connecting linear types to dependent types via relevance</a>. Unlike most other videos, this one focuses on a research paper I co-authored (with Pritam Choudhury, Harley Eades, and Stephanie Weirich). It focuses more on the Haskell of the future than the Haskell of today, and includes a little Idris programming.</li>
+
+    
+<li>Jan 18, 2021: <a href="https://www.youtube.com/watch?v=cOyl7VLfs8k">How whitespace works in Haskell</a>. This video is much more of an instructional one than many, demonstrating how whitespace-sensitive parsing works in Haskell.</li>
+
+    
+<li>Jan 11, 2021: <a href="https://www.youtube.com/watch?v=cOyl7VLfs8k">Functional dependencies are inconsistent</a>, as this video demonstrates.</li>
+
+    
+<li>Jan 4, 2021: <a href="https://www.youtube.com/watch?v=y3qH91bgFq8">Type families can get stuck on invisible arguments</a>, as this video shows. If you have a poly-kinded type family that isn’t reducing, you may want to look here.</li>
+
+    
+<li>Dec 28, 2020: <a href="https://www.youtube.com/watch?v=Z6z3Bnnh_iY">Break out of Template Haskell and into the type-checker</a>. This video demonstrates how a sneaky Template Haskell user can access the full type-checker context, though doing so is dangerous.</li>
+
+    
+<li>Dec 21, 2020: <a href="https://www.youtube.com/watch?v=OgPkeXX0p20">Roles can break abstraction</a>, because an abstract type with a class-based invariant might still be coercible to a different type that will violate the invariant. The video shows how this can happen.</li>
+
+    
+<li>Dec 14, 2020: <a href="https://www.youtube.com/watch?v=uB53g6cEBVc">Strict variables assignments are not bang patterns</a>, as this video shows.</li>
+
+    
+<li>Dec 7, 2020: <a href="https://www.youtube.com/watch?v=Zdne-Ch2000"><code>DeriveAnyClass</code> considered dangerous</a>. This video demonstrates why I do not recommend enabling the <code>DeriveAnyClass</code> extension by default.</li>
+
+    
+<li>Nov 30, 2020: <a href="https://www.youtube.com/watch?v=bYXjKxXtktk">Fixing a GHC bug around equality constraints</a>, demonstrating some of the gnarly bits of GHC’s constraint solver.</li>
+
+    
+<li>Nov 23, 2020: <a href="https://www.youtube.com/watch?v=l-h-vH8JxDE">Using linear types to require the use of a token</a>. the example imagines bringing a certain quantity of money into scope; linear types prevent us from losing or duplicating the money.</li>
+
+<li>Nov 16, 2020: <a href="https://www.youtube.com/watch?v=h3mbGK2qoc8">Rewriting with loopy equalities</a> explores how we might use an assumption like <code>a ~ UnMaybe (Maybe a)</code> for rewriting, even though it looks like using that for rewriting will cause infinite regress.</li>
+    
+<li>Nov 9, 2020: <a href="https://www.youtube.com/watch?v=ZXtdd8e7CQQ">Non-confluence</a> in the solver means that type inference can be unpredictable. And yet this happens! It means we can write a program whose runtime behavior depends on the order of constraints written in a type.</li>
+
+    
+<li>Nov 2, 2020: <a href="https://www.youtube.com/watch?v=9Da_Jjdbg50">A type inference challenge</a> around using constraints to implement “fake” type families. The trick to get the example accepted is to introduce an ordering constraint on how certain constraints are solved.</li>
+
+    
+<li>Oct 26, 2020: <a href="https://www.youtube.com/watch?v=l5veKgGxXd4">How impredicative types and type families don’t mix</a>, demonstrating how GHC’s new Quick Look algorithm stumbles over type families sometimes.</li>
+
+    
+<li>Oct 22, 2020: <a href="https://www.youtube.com/watch?v=65GWGc5LNxc">Debugging an assertion failure</a> in GHC’s constraint solver. The video includes a brief introduction to some of the details of the constraint solver, around Givens, Wanteds, and Deriveds. You can watch how some of the magic happens in debugging GHC itself. (I forgot to make my font size big for this one – apologies!)</li>
+
+    
+<li>Oct 14, 2020: <a href="https://www.youtube.com/watch?v=FFZXWoqviBo">Why we can’t yet eliminate <code>Proxy</code></a>. Briefly, because Haskell does not yet allow visible type application in lambda-expressions that might be used in higher-rank contexts.</li>
+
+    
+<li>Oct 14, 2020: <a href="https://www.youtube.com/watch?v=5vqB0GELyfg">Hello, World!</a>, where I briefly introduce the video series.</li>
+</ul>
+
+<div class="subsection">Production notes</div>
+
+<p>I record these videos using <a href="https://obsproject.com/">OBS Studio</a>, with very light editing in <a href="https://www.blackmagicdesign.com/products/davinciresolve/">DaVinci Resolve</a>. Recording, editing, and posting often add up to take 30-40 minutes of time, much of which is spent waiting for rendering (and can be parallelized with other work). Time to prep for a video ranges from no time at all to maybe up to an hour, if there is some tangled code involved. The goal in production is expedience over a polished result, meaning we all get to enjoy more videos, at the cost of sometimes a few glitches. In particular, I’m aware that sound quality would be improved with a boom mic, but I can’t imagine restraining myself from moving around while making the videos – something tangible would be lost.</p>
+<p>The upshot here is that you too can make such videos: my headset (Logitech G332, highly recommended) was under $50 (though I then graduated to a Shure MV7 at a higher price point), and the recurring time investment is quite low. (It took me maybe a day to learn enough about OBS and DaVinci Resolve, with credit to my Tweag colleague Steve Purcell for introducing me to DaVinci Resolve.) And making the videos is definitely fun.</p>
+
+
+</div>
+</body>
+</html>
