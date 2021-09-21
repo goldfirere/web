@@ -17,6 +17,7 @@
 chronological order.</p>
 
 <ul>
+  <li>Sep 21, 2021: Continuing about pattern synonyms, I explain their <a href="https://youtu.be/00HxIPG0vW0">type signatures</a>.</li>
   <li>Sep 15, 2021: I introduce <a href="https://youtu.be/SPC_R5nwFqo">pattern synonyms</a>, a powerful feature in GHC allowing abstraction over patterns.</li>
   <li>Sep 8, 2021: I walk through the process of <a href="https://youtu.be/XfIlhJFmw3c">instance selection</a>, including a little on overlapping instances.</li>
   <li>Aug 31, 2021: I describe the <a href="https://youtu.be/F827gF6L4jo">process for getting the existentials paper published at ICFP</a>.</li>
@@ -51,19 +52,19 @@ chronological order.</p>
       <li>May 18, 2021: <a href="https://www.youtube.com/watch?v=S5Oz_w9HDs0">Writing custom GADTs to capture arbitrary invariants</a></li>
     </ol>
     </li>
-  
+
   <li>Apr 6, 2021: A small <a href="https://www.youtube.com/watch?v=ijicXvkipFI">introduction to <code>ScopedTypeVariables</code></a> and
     its quirks.</li>
-  
+
   <li>Mar 30, 2021: The <a href="https://www.youtube.com/watch?v=A-qGGag3Mt8">IO monad</a> is really just a state monad, passing
     around the entire <code>RealWorld</code> as its state.</li>
-  
+
   <li>Mar 23, 2021: The dreaded <a href="https://www.youtube.com/watch?v=zpBua3Mql18">monomorphism restriction</a> can actually
     improve performance.</li>
-  
+
   <li>Mar 15, 2021: GHC does not support infinite types. Yet the mere possibility of these
     <a href="https://www.youtube.com/watch?v=lk-0B3HF6FY">prevent closed type families from reducing</a>.</li>
-  
+
 <li>Mar 8, 2021: <a href="https://www.youtube.com/watch?v=xOGsS9rApD8">Newtypes are not strict datatypes</a>, debunking a myth I believed until recently.</li>
 
 
@@ -73,59 +74,59 @@ chronological order.</p>
 
 <li>Feb 22, 2021: <a href="https://www.youtube.com/watch?v=ZNAqtKtkMPU">Using closed type families to simulate closed classes</a>. This video explores a folklore trick to using a closed type family to avoid overlapping instances.</li>
 
-    
+
 <li>Feb 15, 2021: <a href="https://www.youtube.com/watch?v=5LGy4d5Fcgc">Why <code>let</code>-generalization is confusing</a>, especially because GHC sometimes chooses not to do it.</li>
 
-    
+
 <li>Feb 8, 2021: <a href="https://www.youtube.com/watch?v=eYJGeUqOCm4">How to optimize Haskell</a>, exploring a <a href="https://www.tweag.io/blog/2021-01-29-ghc-perf-internship/">previous blog post of mine</a>.</li>
 
-    
+
 <li>Jan 25, 2021: <a href="https://www.youtube.com/watch?v=zglkdlK2zR8">Connecting linear types to dependent types via relevance</a>. Unlike most other videos, this one focuses on a research paper I co-authored (with Pritam Choudhury, Harley Eades, and Stephanie Weirich). It focuses more on the Haskell of the future than the Haskell of today, and includes a little Idris programming.</li>
 
-    
+
 <li>Jan 18, 2021: <a href="https://www.youtube.com/watch?v=uKpPJV0hhCY">How whitespace works in Haskell</a>. This video is much more of an instructional one than many, demonstrating how whitespace-sensitive parsing works in Haskell.</li>
 
-    
+
 <li>Jan 11, 2021: <a href="https://www.youtube.com/watch?v=cOyl7VLfs8k">Functional dependencies are inconsistent</a>, as this video demonstrates.</li>
 
-    
+
 <li>Jan 4, 2021: <a href="https://www.youtube.com/watch?v=y3qH91bgFq8">Type families can get stuck on invisible arguments</a>, as this video shows. If you have a poly-kinded type family that isn’t reducing, you may want to look here.</li>
 
-    
+
 <li>Dec 28, 2020: <a href="https://www.youtube.com/watch?v=Z6z3Bnnh_iY">Break out of Template Haskell and into the type-checker</a>. This video demonstrates how a sneaky Template Haskell user can access the full type-checker context, though doing so is dangerous.</li>
 
-    
+
 <li>Dec 21, 2020: <a href="https://www.youtube.com/watch?v=OgPkeXX0p20">Roles can break abstraction</a>, because an abstract type with a class-based invariant might still be coercible to a different type that will violate the invariant. The video shows how this can happen.</li>
 
-    
+
 <li>Dec 14, 2020: <a href="https://www.youtube.com/watch?v=uB53g6cEBVc">Strict variables assignments are not bang patterns</a>, as this video shows.</li>
 
-    
+
 <li>Dec 7, 2020: <a href="https://www.youtube.com/watch?v=Zdne-Ch2000"><code>DeriveAnyClass</code> considered dangerous</a>. This video demonstrates why I do not recommend enabling the <code>DeriveAnyClass</code> extension by default.</li>
 
-    
+
 <li>Nov 30, 2020: <a href="https://www.youtube.com/watch?v=bYXjKxXtktk">Fixing a GHC bug around equality constraints</a>, demonstrating some of the gnarly bits of GHC’s constraint solver.</li>
 
-    
+
 <li>Nov 23, 2020: <a href="https://www.youtube.com/watch?v=l-h-vH8JxDE">Using linear types to require the use of a token</a>. the example imagines bringing a certain quantity of money into scope; linear types prevent us from losing or duplicating the money.</li>
 
 <li>Nov 16, 2020: <a href="https://www.youtube.com/watch?v=h3mbGK2qoc8">Rewriting with loopy equalities</a> explores how we might use an assumption like <code>a ~ UnMaybe (Maybe a)</code> for rewriting, even though it looks like using that for rewriting will cause infinite regress.</li>
-    
+
 <li>Nov 9, 2020: <a href="https://www.youtube.com/watch?v=ZXtdd8e7CQQ">Non-confluence</a> in the solver means that type inference can be unpredictable. And yet this happens! It means we can write a program whose runtime behavior depends on the order of constraints written in a type.</li>
 
-    
+
 <li>Nov 2, 2020: <a href="https://www.youtube.com/watch?v=9Da_Jjdbg50">A type inference challenge</a> around using constraints to implement “fake” type families. The trick to get the example accepted is to introduce an ordering constraint on how certain constraints are solved.</li>
 
-    
+
 <li>Oct 26, 2020: <a href="https://www.youtube.com/watch?v=l5veKgGxXd4">How impredicative types and type families don’t mix</a>, demonstrating how GHC’s new Quick Look algorithm stumbles over type families sometimes.</li>
 
-    
+
 <li>Oct 22, 2020: <a href="https://www.youtube.com/watch?v=65GWGc5LNxc">Debugging an assertion failure</a> in GHC’s constraint solver. The video includes a brief introduction to some of the details of the constraint solver, around Givens, Wanteds, and Deriveds. You can watch how some of the magic happens in debugging GHC itself. (I forgot to make my font size big for this one – apologies!)</li>
 
-    
+
 <li>Oct 14, 2020: <a href="https://www.youtube.com/watch?v=FFZXWoqviBo">Why we can’t yet eliminate <code>Proxy</code></a>. Briefly, because Haskell does not yet allow visible type application in lambda-expressions that might be used in higher-rank contexts.</li>
 
-    
+
 <li>Oct 14, 2020: <a href="https://www.youtube.com/watch?v=5vqB0GELyfg">Hello, World!</a>, where I briefly introduce the video series.</li>
 </ul>
 
